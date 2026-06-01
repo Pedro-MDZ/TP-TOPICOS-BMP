@@ -1,0 +1,36 @@
+# depslib dependency file v1.0
+1780190051 source:c:\users\walte\desktop\topicos de programación\topicos_bmp_2025_c1_sabado_repo\topicos_bmp_2025_c1_sabado_repo\funciones_alvarezorozco.c
+	"funciones_grupo.h"
+	"funciones_alvarezorozco.h"
+
+1780190051 c:\users\walte\desktop\topicos de programación\topicos_bmp_2025_c1_sabado_repo\topicos_bmp_2025_c1_sabado_repo\funciones_grupo.h
+	<stdio.h>
+	<ctype.h>
+	<stdlib.h>
+	<string.h>
+	<stdbool.h>
+	"funciones_espindola.h"
+
+1780190051 c:\users\walte\desktop\topicos de programación\topicos_bmp_2025_c1_sabado_repo\topicos_bmp_2025_c1_sabado_repo\funciones_espindola.h
+
+1780190051 c:\users\walte\desktop\topicos de programación\topicos_bmp_2025_c1_sabado_repo\topicos_bmp_2025_c1_sabado_repo\funciones_alvarezorozco.h
+	"funciones_grupo.h"
+
+1780190051 source:c:\users\walte\desktop\topicos de programación\topicos_bmp_2025_c1_sabado_repo\topicos_bmp_2025_c1_sabado_repo\funciones_grupo.c
+	"funciones_grupo.h"
+	"funciones_luna.h"
+	"funciones_alvarezorozco.h"
+
+1780190051 c:\users\walte\desktop\topicos de programación\topicos_bmp_2025_c1_sabado_repo\topicos_bmp_2025_c1_sabado_repo\funciones_luna.h
+	"funciones_grupo.h"
+
+1780190051 source:c:\users\walte\desktop\topicos de programación\topicos_bmp_2025_c1_sabado_repo\topicos_bmp_2025_c1_sabado_repo\funciones_luna.c
+	"funciones_grupo.h"
+	"funciones_luna.h"
+
+1780190051 source:c:\users\walte\desktop\topicos de programación\topicos_bmp_2025_c1_sabado_repo\topicos_bmp_2025_c1_sabado_repo\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"funciones_grupo.h"
+
