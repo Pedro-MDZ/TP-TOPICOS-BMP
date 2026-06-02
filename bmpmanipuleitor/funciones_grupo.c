@@ -73,14 +73,14 @@ void ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const
     if(BuscarFiltro(filtro))
     {
 
-        char archivoSalida[100];
+        char archivoSalida[145];
         char nombreEntrada[100];
             strcpy(nombreEntrada, archivoEntrada);
 
-            
+
 
             FILE *ImgOriginal = fopen(archivoEntrada, "rb");
-            
+
 
 
             if (!ImgOriginal)

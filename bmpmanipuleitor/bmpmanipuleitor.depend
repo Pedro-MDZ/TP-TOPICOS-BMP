@@ -34,3 +34,35 @@
 	<string.h>
 	"funciones_grupo.h"
 
+1780190051 source:c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_alvarezorozco.c
+	"funciones_grupo.h"
+	"funciones_alvarezorozco.h"
+
+1780327459 c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_grupo.h
+	<stdio.h>
+	<ctype.h>
+	<stdlib.h>
+	<string.h>
+	<stdbool.h>
+
+1780190051 c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_alvarezorozco.h
+	"funciones_grupo.h"
+
+1780361131 source:c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_grupo.c
+	"funciones_grupo.h"
+	"funciones_luna.h"
+	"funciones_alvarezorozco.h"
+
+1780190051 c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_luna.h
+	"funciones_grupo.h"
+
+1780190051 source:c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_luna.c
+	"funciones_grupo.h"
+	"funciones_luna.h"
+
+1780190051 source:c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"funciones_grupo.h"
+

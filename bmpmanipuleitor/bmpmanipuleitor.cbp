@@ -31,19 +31,19 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="../../TOPICOS_BMP_2025_C1_SABADO_REPO/TOPICOS_BMP_2025_C1_SABADO_REPO/funciones_alvarezorozco.c">
+		<Unit filename="funciones_alvarezorozco.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../TOPICOS_BMP_2025_C1_SABADO_REPO/TOPICOS_BMP_2025_C1_SABADO_REPO/funciones_alvarezorozco.h" />
-		<Unit filename="../../TOPICOS_BMP_2025_C1_SABADO_REPO/TOPICOS_BMP_2025_C1_SABADO_REPO/funciones_grupo.c">
+		<Unit filename="funciones_alvarezorozco.h" />
+		<Unit filename="funciones_grupo.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../TOPICOS_BMP_2025_C1_SABADO_REPO/TOPICOS_BMP_2025_C1_SABADO_REPO/funciones_grupo.h" />
-		<Unit filename="../../TOPICOS_BMP_2025_C1_SABADO_REPO/TOPICOS_BMP_2025_C1_SABADO_REPO/funciones_luna.c">
+		<Unit filename="funciones_grupo.h" />
+		<Unit filename="funciones_luna.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../TOPICOS_BMP_2025_C1_SABADO_REPO/TOPICOS_BMP_2025_C1_SABADO_REPO/funciones_luna.h" />
-		<Unit filename="../../TOPICOS_BMP_2025_C1_SABADO_REPO/TOPICOS_BMP_2025_C1_SABADO_REPO/main.c">
+		<Unit filename="funciones_luna.h" />
+		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Extensions>
