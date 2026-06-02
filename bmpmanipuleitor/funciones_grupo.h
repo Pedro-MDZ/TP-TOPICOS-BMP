@@ -85,5 +85,7 @@ void CargarInstrucciones(instrucciones* inst, const char* cadena);
 
 bool BuscarFiltro(const char* supuestofiltro);
 
+bool validaCantImg(instrucciones *inst);
+
 #endif // FUNCIONES_GRUPO_H
 

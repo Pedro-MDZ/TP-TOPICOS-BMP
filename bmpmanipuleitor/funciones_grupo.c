@@ -158,7 +158,7 @@ void ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const
             }
             else
             {
-                snprintf(archivoSalida, sizeof(archivoSalida), "REPO_%s_%s", filtro, nombreEntrada);
+                snprintf(archivoSalida, sizeof(archivoSalida), "MIEL_%s_%s", filtro, nombreEntrada);
                 FILE *ImgNueva = fopen(archivoSalida, "wb");
                 if (!ImgNueva)
                 {
@@ -356,6 +356,15 @@ bool BuscarFiltro(const char* filtro)
         return false;
 }
 
+bool validaCantImg(instrucciones *inst)
+{
+    if(inst->cant_imagenes == 0)
+    {
+        printf("ERROR: No se ingreso ninguna imagen");
+        return false;
+    }
+        return true;
+}
 
 
 
