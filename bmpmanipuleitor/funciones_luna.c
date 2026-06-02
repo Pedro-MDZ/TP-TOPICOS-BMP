@@ -156,3 +156,16 @@ void Cebratricolor(Pixel** matriz, int filas, int columnas, float porcentaje)
         }
     }
 }
+
+void instInfo(BMPHeader *header, DIBHeader *dheader,char *nombreImagen)
+{
+    unsigned int padding = (4 - (dheader->ancho * BYTES_POR_PIXEL) % 4) % 4;
+    printf("\nArchivo: %s",nombreImagen);
+    printf("\nTamanio del archivo: %d bytes",header->tamArch);
+    printf("\nDimensiones: %d x %d",dheader->ancho,dheader->altura);
+    printf("\nProfundidad: %d bits",dheader->tamPunto);
+    printf("\nCompresion: %d ",dheader->compresion);
+    printf("\nOffset de datos: %d bytes",(int)(sizeof(BMPHeader)+sizeof(DIBHeader)));
+    printf("\nTamanio de la imagen: %d bytes",dheader->tamImg);
+    printf("\nPadding por fila: %d bytes",padding);
+}

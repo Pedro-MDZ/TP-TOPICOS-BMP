@@ -95,6 +95,7 @@ void ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const
             fread(&header, sizeof(BMPHeader), 1, ImgOriginal);
             fread(&dib, sizeof(DIBHeader), 1, ImgOriginal);
 
+
             Pixel** matriz = (Pixel**)crearMatriz(sizeof(Pixel), dib.altura, dib.ancho);
             if (!matriz)
             {
@@ -136,6 +137,14 @@ void ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const
                 ConcatenarHorizontal(&matriz, &dib.altura, &dib.ancho,archivoEntrada2);
             else if(strcmp(filtro,"concatenar-vertical")==0 && archivoEntrada2!= NULL)
                 ConcatenarVertical(&matriz, &dib.altura, &dib.ancho,archivoEntrada2);
+            else if(strcmp(filtro,"info")==0)
+            {
+                instInfo(&header,&dib,nombreEntrada);
+                fclose(ImgOriginal);
+                destruirMatriz((void**)matriz, dib.altura);
+                return;
+            }
+
 
 
 
@@ -167,7 +176,7 @@ void ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const
                 fclose(ImgNueva);
                 fclose(ImgOriginal);
 
-                printf("Filtro '%s' aplicado. Imagen guardada como: %s\n", filtro, archivoSalida);
+                printf("\nFiltro '%s' aplicado. Imagen guardada como: %s\n", filtro, archivoSalida);
             }
     }
     else
@@ -340,6 +349,8 @@ bool BuscarFiltro(const char* filtro)
     else if(strcmp(filtro,"concatenar-vertical")==0)
         return true;
     else if(strcmp(filtro,"comodin")==0)
+        return true;
+    else if(strcmp(filtro,"info")==0)
         return true;
     else
         return false;
