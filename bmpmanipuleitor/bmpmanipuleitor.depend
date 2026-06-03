@@ -38,7 +38,7 @@
 	"funciones_grupo.h"
 	"funciones_alvarezorozco.h"
 
-1780440623 c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_grupo.h
+1780443554 c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_grupo.h
 	<stdio.h>
 	<ctype.h>
 	<stdlib.h>
@@ -48,19 +48,19 @@
 1780190051 c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_alvarezorozco.h
 	"funciones_grupo.h"
 
-1780440641 source:c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_grupo.c
+1780453475 source:c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_grupo.c
 	"funciones_grupo.h"
 	"funciones_luna.h"
 	"funciones_alvarezorozco.h"
 
-1780434397 c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_luna.h
+1780453409 c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_luna.h
 	"funciones_grupo.h"
 
-1780437733 source:c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_luna.c
+1780453384 source:c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_luna.c
 	"funciones_grupo.h"
 	"funciones_luna.h"
 
-1780440526 source:c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\main.c
+1780452430 source:c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>

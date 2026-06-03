@@ -1,5 +1,10 @@
 #include "funciones_grupo.h"
 #include "funciones_luna.h"
+#define GRUPO "MIEL"
+#define INTEGRANTE1 " DNI - APELLIDO, Nombre"
+#define INTEGRANTE2 " DNI - APELLIDO, Nombre"
+#define INTEGRANTE3 " DNI - APELLIDO, Nombre"
+#define PROY "bmpmanipuleitor.exe"
 
 
 void FiltroVerdeMatriz(Pixel** matriz, int filas, int columnas, float porcentaje)
@@ -168,4 +173,29 @@ void instInfo(BMPHeader *header, DIBHeader *dheader,char *nombreImagen)
     printf("\nOffset de datos: %d bytes",(int)(sizeof(BMPHeader)+sizeof(DIBHeader)));
     printf("\nTamanio de la imagen: %d bytes",dheader->tamImg);
     printf("\nPadding por fila: %d bytes",padding);
+}
+
+void instHelp(void)
+{
+    printf("\nGRUPO: %s",GRUPO);
+    printf("\nINTEGRANTES: \n%s\n%s\n%s",INTEGRANTE1,INTEGRANTE2,INTEGRANTE3);
+    printf("\nUSO: \n%s\t--negativo",PROY);
+    printf("\n%s\t--escala-de-grises",PROY);
+    printf("\n%s\t--espejar-horizontal",PROY);
+    printf("\n%s\t--espejar-vertical",PROY);
+    printf("\n%s\t--aumentar-contraste=X",PROY);
+    printf("\n%s\t--reducir-contraste=X",PROY);
+    printf("\n%s\t--tonalidad-azul=X",PROY);
+    printf("\n%s\t--tonalidad-verde=X",PROY);
+    printf("\n%s\t--tonalidad-roja=X",PROY);
+    printf("\n%s\t--recortar=X",PROY);
+    printf("\n%s\t--achicar=X",PROY);
+    printf("\n%s\t--rotar-derecha",PROY);
+    printf("\n%s\t--rotar-izquierda",PROY);
+    printf("\n%s\t--concatenar-horizontal",PROY);
+    printf("\n%s\t--concatenar-vertical",PROY);
+    printf("\nEJEMPLO: \n%s --rotar-derecha imagen1.bmp",PROY);
+
+
+    return;
 }

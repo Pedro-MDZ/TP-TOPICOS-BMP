@@ -18,3 +18,4 @@ void AumentoContraste(Pixel** matriz, int filas, int columnas, float porcentaje)
 void ReduccionContraste(Pixel** matriz, int filas, int columnas,float porcentaje);
 void Cebratricolor(Pixel** matriz, int filas, int columnas, float porcentaje);
 void instInfo(BMPHeader *header, DIBHeader *dheader,char *nombreImagen);
+void instHelp(void);
