@@ -111,6 +111,8 @@ void ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const
 
             if (strcmp(filtro, "escala-de-grises") == 0)
                 EscalaGris(matriz, dib.altura, dib.ancho);
+            else if (strcmp(filtro, "negativo") == 0)
+                InvertirColores(&matriz, &dib.altura, &dib.ancho);
             else if (strcmp(filtro, "espejar-horizontal") == 0)
                 EspejarHorizontal(&matriz, &dib.altura, &dib.ancho);
             else if (strcmp(filtro, "espejar-vertical") == 0)
@@ -263,23 +265,6 @@ void EscribirImagen(FILE* archivo, Pixel** matriz, int ancho, int alto)
     }
 }
 
-//FILTROS
-
-
-void InvertirColores(Pixel** matriz, int filas, int columnas)
-{
-    for (int i = 0; i < filas; i++)
-    {
-        for (int j = 0; j < columnas; j++)
-        {
-            matriz[i][j].rojo  = 255 - matriz[i][j].rojo;
-            matriz[i][j].verde = 255 - matriz[i][j].verde;
-            matriz[i][j].azul  = 255 - matriz[i][j].azul;
-        }
-    }
-}
-
-
 void inicializar_instrucciones(instrucciones* inst)
 {
     inst->imagenes[0] = NULL;
@@ -378,6 +363,8 @@ void CargarInstrucciones(instrucciones* inst, const char* cadena)
 bool BuscarFiltro(const char* filtro)
 {
     if (strcmp(filtro, "escala-de-grises") == 0)
+        return true;
+    else if (strcmp(filtro, "negativo") == 0)
         return true;
     else if (strcmp(filtro, "espejar-horizontal") == 0)
         return true;

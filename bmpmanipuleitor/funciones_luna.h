@@ -13,6 +13,7 @@ void FiltroAzulMatriz(Pixel** matriz, int filas, int columnas, float porcentaje)
 void FiltroRojoMatriz(Pixel** matriz, int filas, int columnas, float porcentaje);
 
 void EscalaGris(Pixel** matriz, int filas, int columnas);
+void InvertirColores(Pixel** matriz, int filas, int columnas);
 
 void AumentoContraste(Pixel** matriz, int filas, int columnas, float porcentaje);
 void ReduccionContraste(Pixel** matriz, int filas, int columnas,float porcentaje);

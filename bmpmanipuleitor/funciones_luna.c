@@ -133,6 +133,19 @@ void ReduccionContraste(Pixel** matriz, int filas, int columnas, float porcentaj
     }
 }
 
+void InvertirColores(Pixel** matriz, int filas, int columnas)
+{
+    for (int i = 0; i < filas; i++)
+    {
+        for (int j = 0; j < columnas; j++)
+        {
+            matriz[i][j].rojo  = 255 - matriz[i][j].rojo;
+            matriz[i][j].verde = 255 - matriz[i][j].verde;
+            matriz[i][j].azul  = 255 - matriz[i][j].azul;
+        }
+    }
+}
+
 void Cebratricolor(Pixel** matriz, int filas, int columnas, float porcentaje)
 {
     int ciclo = 3 * 10;
