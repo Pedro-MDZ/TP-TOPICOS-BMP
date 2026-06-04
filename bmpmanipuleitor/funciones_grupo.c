@@ -16,6 +16,8 @@ Entrega: No
 #include "funciones_luna.h"
 #include "funciones_alvarezorozco.h"
 
+
+
 //MATRIZ DINAMICA
 
 //Creacion Matriz Dinamica
@@ -95,6 +97,7 @@ void ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const
             fread(&header, sizeof(BMPHeader), 1, ImgOriginal);
             fread(&dib, sizeof(DIBHeader), 1, ImgOriginal);
 
+
             Pixel** matriz = (Pixel**)crearMatriz(sizeof(Pixel), dib.altura, dib.ancho);
             if (!matriz)
             {
@@ -136,6 +139,19 @@ void ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const
                 ConcatenarHorizontal(&matriz, &dib.altura, &dib.ancho,archivoEntrada2);
             else if(strcmp(filtro,"concatenar-vertical")==0 && archivoEntrada2!= NULL)
                 ConcatenarVertical(&matriz, &dib.altura, &dib.ancho,archivoEntrada2);
+            else if(strcmp(filtro,"info")==0)
+            {
+                fclose(ImgOriginal);
+                destruirMatriz((void**)matriz, dib.altura);
+                return;
+            }
+            else if(strcmp(filtro,"help")==0)
+            {
+                fclose(ImgOriginal);
+                destruirMatriz((void**)matriz, dib.altura);
+                return;
+            }
+
 
 
 
@@ -149,7 +165,7 @@ void ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const
             }
             else
             {
-                snprintf(archivoSalida, sizeof(archivoSalida), "REPO_%s_%s", filtro, nombreEntrada);
+                snprintf(archivoSalida, sizeof(archivoSalida), "MIEL_%s_%s", filtro, nombreEntrada);
                 FILE *ImgNueva = fopen(archivoSalida, "wb");
                 if (!ImgNueva)
                 {
@@ -167,11 +183,57 @@ void ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const
                 fclose(ImgNueva);
                 fclose(ImgOriginal);
 
-                printf("Filtro '%s' aplicado. Imagen guardada como: %s\n", filtro, archivoSalida);
+                printf("\nFiltro '%s' aplicado. Imagen guardada como: %s\n", filtro, archivoSalida);
             }
     }
     else
         printf("Filtro '%s' no reconocido.\n", filtro);
+}
+
+void ProcesarUtilidad(const char* archivoEntrada, const char* filtroEntrante)
+{
+    char copia[40];
+    char* filtro = NULL;
+
+    strcpy(copia,filtroEntrante);
+    filtro=copia;
+    if(BuscarFiltro(filtro))
+    {
+        char nombreEntrada[100];
+        strcpy(nombreEntrada, archivoEntrada);
+        FILE *ImgOriginal = fopen(archivoEntrada, "rb");
+        if (!ImgOriginal)
+        {
+            printf("Error abriendo archivos\n");
+            return;
+        }
+
+        BMPHeader header;
+        DIBHeader dib;
+
+        fread(&header, sizeof(BMPHeader), 1, ImgOriginal);
+        fread(&dib, sizeof(DIBHeader), 1, ImgOriginal);
+
+        if(strcmp(filtro,"info")==0)
+            {
+                instInfo(&header,&dib,nombreEntrada);
+                fclose(ImgOriginal);
+                return;
+            }
+        else if(strcmp(filtro,"help")==0)
+            {
+                instHelp();
+                fclose(ImgOriginal);
+                return;
+            }
+        else
+            return;
+    }
+    else
+        printf("Utilidad '%s' no reconocido.\n", filtro);
+
+
+    return;
 }
 
 //leer imagenes
@@ -341,10 +403,33 @@ bool BuscarFiltro(const char* filtro)
         return true;
     else if(strcmp(filtro,"comodin")==0)
         return true;
+        else if(strcmp(filtro,"info")==0)
+        return true;
+    else if(strcmp(filtro, "help") == 0)
+        return true;
     else
         return false;
 }
 
+bool validaCantImg(instrucciones *inst)
+{
+    if(inst->cant_imagenes == 0)
+    {
+        printf("ERROR: No se ingreso ninguna imagen");
+        return false;
+    }
+        return true;
+}
+
+bool BuscarUtilidad(const char* utilidad)
+{
+    if (strcmp(utilidad, "info") == 0)
+        return true;
+    if (strcmp(utilidad, "help") == 0)
+        return true;
+    else
+        return false;
+}
 
 
 

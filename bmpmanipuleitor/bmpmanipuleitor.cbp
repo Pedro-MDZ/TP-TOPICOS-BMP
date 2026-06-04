@@ -11,6 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option parameters="unlam_3.bmp --escala-de-grises --info --help" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
