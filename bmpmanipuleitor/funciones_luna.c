@@ -143,17 +143,17 @@ void Cebratricolor(Pixel** matriz, int filas, int columnas, float porcentaje)
         {
             int val = (i + j) % ciclo;
 
-            if (val < 10)  // Línea roja
+            if (val < 10)  // Lï¿½nea roja
             {
                 int aumento = matriz[i][j].rojo + (matriz[i][j].rojo * (porcentaje / 100));
                 matriz[i][j].rojo = (aumento > 255) ? 255 : aumento;
             }
-            else if (val < 2 * 10)  // Línea verde
+            else if (val < 2 * 10)  // Lï¿½nea verde
             {
                 int aumento = matriz[i][j].verde + (matriz[i][j].verde * (porcentaje / 100));
                 matriz[i][j].verde = (aumento > 255) ? 255 : aumento;
             }
-            else  // Línea azul
+            else  // Lï¿½nea azul
             {
                 int aumento = matriz[i][j].azul + (matriz[i][j].azul * (porcentaje / 100));
                 matriz[i][j].azul = (aumento > 255) ? 255 : aumento;
@@ -198,4 +198,66 @@ void instHelp(void)
 
 
     return;
+}
+
+void Pixelado(Pixel** matriz, int filas, int columnas, float porcentaje)
+{
+    int tamBloque = (int)porcentaje;
+    if (tamBloque < 1) tamBloque = 1;
+ 
+    for (int i = 0; i < filas; i += tamBloque)
+    {
+        for (int j = 0; j < columnas; j += tamBloque)
+        {
+            // Calcular el promedio R, G, B del bloque
+            long sumaR = 0, sumaG = 0, sumaB = 0;
+            int cant = 0;
+ 
+            for (int bi = i; bi < i + tamBloque && bi < filas; bi++)
+            {
+                for (int bj = j; bj < j + tamBloque && bj < columnas; bj++)
+                {
+                    sumaR += matriz[bi][bj].rojo;
+                    sumaG += matriz[bi][bj].verde;
+                    sumaB += matriz[bi][bj].azul;
+                    cant++;
+                }
+            }
+ 
+            unsigned char promedioR = (unsigned char)(sumaR / cant);
+            unsigned char promedioG = (unsigned char)(sumaG / cant);
+            unsigned char promedioB = (unsigned char)(sumaB / cant);
+ 
+            // Pintar todo el bloque con ese promedio
+            for (int bi = i; bi < i + tamBloque && bi < filas; bi++)
+            {
+                for (int bj = j; bj < j + tamBloque && bj < columnas; bj++)
+                {
+                    matriz[bi][bj].rojo  = promedioR;
+                    matriz[bi][bj].verde = promedioG;
+                    matriz[bi][bj].azul  = promedioB;
+                }
+            }
+        }
+    }
+}
+
+void Solarizacion(Pixel** matriz, int filas, int columnas, float porcentaje)
+{
+    int umbral = (int)(porcentaje * 255.0f / 100.0f);
+ 
+    for (int i = 0; i < filas; i++)
+    {
+        for (int j = 0; j < columnas; j++)
+        {
+            if (matriz[i][j].rojo > umbral)
+                matriz[i][j].rojo = 255 - matriz[i][j].rojo;
+ 
+            if (matriz[i][j].verde > umbral)
+                matriz[i][j].verde = 255 - matriz[i][j].verde;
+ 
+            if (matriz[i][j].azul > umbral)
+                matriz[i][j].azul = 255 - matriz[i][j].azul;
+        }
+    }
 }

@@ -19,3 +19,6 @@ void ReduccionContraste(Pixel** matriz, int filas, int columnas,float porcentaje
 void Cebratricolor(Pixel** matriz, int filas, int columnas, float porcentaje);
 void instInfo(BMPHeader *header, DIBHeader *dheader,char *nombreImagen);
 void instHelp(void);
+
+void Pixelado(Pixel** matriz, int filas, int columnas, float porcentaje);
+void Solarizacion(Pixel** matriz, int filas, int columnas, float porcentaje);

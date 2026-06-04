@@ -133,8 +133,12 @@ void ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const
                 RotarDerecha(&matriz, &dib.altura, &dib.ancho);
             else if (strcmp(filtro, "rotar-izquierda") == 0)
                 RotarIzquierda(&matriz, &dib.altura, &dib.ancho);
-            else if(strcmp(filtro,"comodin")==0)
+            else if(strcmp(filtro,"comodin1")==0)
                 Cebratricolor(matriz, dib.altura, dib.ancho, porcentaje);
+            else if (strcmp(filtro, "comodin2") == 0)
+                Pixelado(matriz, dib.altura, dib.ancho, porcentaje);
+            else if (strcmp(filtro, "comodin3") == 0)
+                Solarizacion(matriz, dib.altura, dib.ancho, porcentaje);
             else if(strcmp(filtro,"concatenar-horizontal")==0 && archivoEntrada2 != NULL)
                 ConcatenarHorizontal(&matriz, &dib.altura, &dib.ancho,archivoEntrada2);
             else if(strcmp(filtro,"concatenar-vertical")==0 && archivoEntrada2!= NULL)
@@ -401,7 +405,11 @@ bool BuscarFiltro(const char* filtro)
         return true;
     else if(strcmp(filtro,"concatenar-vertical")==0)
         return true;
-    else if(strcmp(filtro,"comodin")==0)
+    else if(strcmp(filtro,"comodin1")==0)
+        return true;
+    else if (strcmp(filtro, "comodin2") == 0)
+        return true;
+    else if (strcmp(filtro, "comodin3") == 0)
         return true;
         else if(strcmp(filtro,"info")==0)
         return true;

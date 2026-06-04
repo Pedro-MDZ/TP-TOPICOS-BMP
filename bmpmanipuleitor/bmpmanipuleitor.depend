@@ -66,3 +66,35 @@
 	<string.h>
 	"funciones_grupo.h"
 
+1780601015 source:/home/josue/Documentos/Git/TP-TOPICOS-BMP/bmpmanipuleitor/funciones_alvarezorozco.c
+	"funciones_grupo.h"
+	"funciones_alvarezorozco.h"
+
+1780601015 /home/josue/Documentos/Git/TP-TOPICOS-BMP/bmpmanipuleitor/funciones_grupo.h
+	<stdio.h>
+	<ctype.h>
+	<stdlib.h>
+	<string.h>
+	<stdbool.h>
+
+1780601015 /home/josue/Documentos/Git/TP-TOPICOS-BMP/bmpmanipuleitor/funciones_alvarezorozco.h
+	"funciones_grupo.h"
+
+1780603431 source:/home/josue/Documentos/Git/TP-TOPICOS-BMP/bmpmanipuleitor/funciones_grupo.c
+	"funciones_grupo.h"
+	"funciones_luna.h"
+	"funciones_alvarezorozco.h"
+
+1780603284 /home/josue/Documentos/Git/TP-TOPICOS-BMP/bmpmanipuleitor/funciones_luna.h
+	"funciones_grupo.h"
+
+1780603438 source:/home/josue/Documentos/Git/TP-TOPICOS-BMP/bmpmanipuleitor/funciones_luna.c
+	"funciones_grupo.h"
+	"funciones_luna.h"
+
+1780601015 source:/home/josue/Documentos/Git/TP-TOPICOS-BMP/bmpmanipuleitor/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"funciones_grupo.h"
+
