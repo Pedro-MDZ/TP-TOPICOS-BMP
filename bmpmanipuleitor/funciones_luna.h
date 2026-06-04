@@ -17,3 +17,5 @@ void EscalaGris(Pixel** matriz, int filas, int columnas);
 void AumentoContraste(Pixel** matriz, int filas, int columnas, float porcentaje);
 void ReduccionContraste(Pixel** matriz, int filas, int columnas,float porcentaje);
 void Cebratricolor(Pixel** matriz, int filas, int columnas, float porcentaje);
+void Pixelado(Pixel** matriz, int filas, int columnas, float porcentaje);
+void Solarizacion(Pixel** matriz, int filas, int columnas, float porcentaje);
