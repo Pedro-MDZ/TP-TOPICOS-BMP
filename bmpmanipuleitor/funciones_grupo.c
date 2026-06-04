@@ -197,53 +197,40 @@ void ProcesarUtilidad(const char* archivoEntrada, const char* filtroEntrante)
 {
     char copia[40];
     char* filtro = NULL;
-
-    strcpy(copia,filtroEntrante);
+    strcpy(copia, filtroEntrante);
     if (strchr(copia, '='))
-    {
-        filtro= strtok(copia, "=");//nombre filtro
-    }
+        filtro = strtok(copia, "=");
     else
+        filtro = copia;
+
+    if (!BuscarFiltro(filtro))
     {
-        filtro=copia;
+        printf("Utilidad '%s' no reconocida.\n", filtro);
+        return;
     }
-    if(BuscarFiltro(filtro))
+
+    if (strcmp(filtro, "help") == 0)
     {
-        char nombreEntrada[100];
-        strcpy(nombreEntrada, archivoEntrada);
-        FILE *ImgOriginal = fopen(archivoEntrada, "rb");
-        if (!ImgOriginal)
-        {
-            printf("Error abriendo archivos\n");
-            return;
-        }
-
-        BMPHeader header;
-        DIBHeader dib;
-
-        fread(&header, sizeof(BMPHeader), 1, ImgOriginal);
-        fread(&dib, sizeof(DIBHeader), 1, ImgOriginal);
-
-        if(strcmp(filtro,"info")==0)
-            {
-                instInfo(&header,&dib,nombreEntrada);
-                fclose(ImgOriginal);
-                return;
-            }
-        else if(strcmp(filtro,"help")==0)
-            {
-                instHelp();
-                fclose(ImgOriginal);
-                return;
-            }
-        else
-            return;
+        instHelp();
+        return;
     }
-    else
-        printf("Utilidad '%s' no reconocido.\n", filtro);
 
+    FILE *ImgOriginal = fopen(archivoEntrada, "rb");
+    if (!ImgOriginal)
+    {
+        printf("Error abriendo archivo\n");
+        return;
+    }
 
-    return;
+    BMPHeader header;
+    DIBHeader dib;
+    fread(&header, sizeof(BMPHeader), 1, ImgOriginal);
+    fread(&dib, sizeof(DIBHeader), 1, ImgOriginal);
+
+    if (strcmp(filtro, "info") == 0)
+        instInfo(&header, &dib, (char*)archivoEntrada);
+
+    fclose(ImgOriginal);
 }
 
 //leer imagenes
