@@ -63,6 +63,8 @@ typedef struct{
     size_t cant_filtros;
 }instrucciones;
 
+int procesar_imagen(int argc, char* argv[]);
+
 void ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2, const char* filtro);
 
 void** crearMatriz(size_t tamElem, int filas, int columnas);

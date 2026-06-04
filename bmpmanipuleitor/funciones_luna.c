@@ -1,11 +1,11 @@
 #include "funciones_grupo.h"
 #include "funciones_luna.h"
+
 #define GRUPO "MIEL"
 #define INTEGRANTE1 " DNI - APELLIDO, Nombre"
 #define INTEGRANTE2 " DNI - LUNA, Josue Martiniano"
 #define INTEGRANTE3 " DNI - APELLIDO, Nombre"
 #define PROY "bmpmanipuleitor.exe"
-
 
 void FiltroVerdeMatriz(Pixel** matriz, int filas, int columnas, float porcentaje)
 {
