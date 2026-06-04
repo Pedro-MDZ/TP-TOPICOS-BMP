@@ -123,8 +123,8 @@ void Recortar(Pixel*** matriz, int *filas, int *columnas, float porcentaje)
     int nuevasColumnas = (*columnas) * porcentaje;
 
 
-    int margenSuperior = (*filas - nuevasFilas) / 2;
-    int margenIzquierdo = (*columnas - nuevasColumnas) / 2;
+    int margenSuperior = 0;
+    int margenIzquierdo = 0;
 
     Pixel** nuevaMatriz = (Pixel**)crearMatriz(sizeof(Pixel), nuevasFilas, nuevasColumnas);
 

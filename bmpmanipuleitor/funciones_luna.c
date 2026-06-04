@@ -2,7 +2,7 @@
 #include "funciones_luna.h"
 #define GRUPO "MIEL"
 #define INTEGRANTE1 " DNI - APELLIDO, Nombre"
-#define INTEGRANTE2 " DNI - APELLIDO, Nombre"
+#define INTEGRANTE2 " DNI - LUNA, Josue Martiniano"
 #define INTEGRANTE3 " DNI - APELLIDO, Nombre"
 #define PROY "bmpmanipuleitor.exe"
 
@@ -208,6 +208,9 @@ void instHelp(void)
     printf("\n%s\t--concatenar-horizontal",PROY);
     printf("\n%s\t--concatenar-vertical",PROY);
     printf("\nEJEMPLO: \n%s --rotar-derecha imagen1.bmp",PROY);
+    printf("\nFILTRO: --comodin1=X Crea un patron de los 3 colores primarios en diagonal con X como intensidad");
+    printf("\nFILTRO: --comodin2=X Pixelea la imagen con bloques tomando un promedio de los colores por bloque, con X se decide el tam de bloque");
+    printf("\nFILTRO: --comodin3=X Crea un patron de los 3 colores primarios en diagonal con el ancho de X para las columnas");
 
 
     return;
@@ -215,20 +218,21 @@ void instHelp(void)
 
 void Pixelado(Pixel** matriz, int filas, int columnas, float porcentaje)
 {
-    int tamBloque = (int)porcentaje;
-    if (tamBloque < 1) tamBloque = 1;
- 
-    for (int i = 0; i < filas; i += tamBloque)
+    int tamBloqueFilas = (int)(filas * porcentaje / 100);
+    int tamBloqueColumnas = (int)(columnas * porcentaje / 100);
+    if (tamBloqueFilas < 1) tamBloqueFilas = 1;
+    if (tamBloqueColumnas < 1) tamBloqueColumnas = 1;
+
+    for (int i = 0; i < filas; i += tamBloqueFilas)
     {
-        for (int j = 0; j < columnas; j += tamBloque)
+        for (int j = 0; j < columnas; j += tamBloqueColumnas)
         {
-            // Calcular el promedio R, G, B del bloque
             long sumaR = 0, sumaG = 0, sumaB = 0;
             int cant = 0;
- 
-            for (int bi = i; bi < i + tamBloque && bi < filas; bi++)
+
+            for (int bi = i; bi < i + tamBloqueFilas && bi < filas; bi++)
             {
-                for (int bj = j; bj < j + tamBloque && bj < columnas; bj++)
+                for (int bj = j; bj < j + tamBloqueColumnas && bj < columnas; bj++)
                 {
                     sumaR += matriz[bi][bj].rojo;
                     sumaG += matriz[bi][bj].verde;
@@ -236,41 +240,20 @@ void Pixelado(Pixel** matriz, int filas, int columnas, float porcentaje)
                     cant++;
                 }
             }
- 
+
             unsigned char promedioR = (unsigned char)(sumaR / cant);
             unsigned char promedioG = (unsigned char)(sumaG / cant);
             unsigned char promedioB = (unsigned char)(sumaB / cant);
- 
-            // Pintar todo el bloque con ese promedio
-            for (int bi = i; bi < i + tamBloque && bi < filas; bi++)
+
+            for (int bi = i; bi < i + tamBloqueFilas && bi < filas; bi++)
             {
-                for (int bj = j; bj < j + tamBloque && bj < columnas; bj++)
+                for (int bj = j; bj < j + tamBloqueColumnas && bj < columnas; bj++)
                 {
                     matriz[bi][bj].rojo  = promedioR;
                     matriz[bi][bj].verde = promedioG;
                     matriz[bi][bj].azul  = promedioB;
                 }
             }
-        }
-    }
-}
-
-void Solarizacion(Pixel** matriz, int filas, int columnas, float porcentaje)
-{
-    int umbral = (int)(porcentaje * 255.0f / 100.0f);
- 
-    for (int i = 0; i < filas; i++)
-    {
-        for (int j = 0; j < columnas; j++)
-        {
-            if (matriz[i][j].rojo > umbral)
-                matriz[i][j].rojo = 255 - matriz[i][j].rojo;
- 
-            if (matriz[i][j].verde > umbral)
-                matriz[i][j].verde = 255 - matriz[i][j].verde;
- 
-            if (matriz[i][j].azul > umbral)
-                matriz[i][j].azul = 255 - matriz[i][j].azul;
         }
     }
 }

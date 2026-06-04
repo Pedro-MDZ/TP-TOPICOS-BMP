@@ -68,7 +68,6 @@ void ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const
     else
     {
         filtro=copia;
-
     }
 
     //FUNCION BUSQUEDA DE FILTROS
@@ -112,7 +111,7 @@ void ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const
             if (strcmp(filtro, "escala-de-grises") == 0)
                 EscalaGris(matriz, dib.altura, dib.ancho);
             else if (strcmp(filtro, "negativo") == 0)
-                InvertirColores(&matriz, &dib.altura, &dib.ancho);
+                InvertirColores(matriz, dib.altura, dib.ancho);
             else if (strcmp(filtro, "espejar-horizontal") == 0)
                 EspejarHorizontal(&matriz, &dib.altura, &dib.ancho);
             else if (strcmp(filtro, "espejar-vertical") == 0)
@@ -139,8 +138,6 @@ void ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const
                 Cebratricolor(matriz, dib.altura, dib.ancho, porcentaje);
             else if (strcmp(filtro, "comodin2") == 0)
                 Pixelado(matriz, dib.altura, dib.ancho, porcentaje);
-            else if (strcmp(filtro, "comodin3") == 0)
-                Solarizacion(matriz, dib.altura, dib.ancho, porcentaje);
             else if(strcmp(filtro,"concatenar-horizontal")==0 && archivoEntrada2 != NULL)
                 ConcatenarHorizontal(&matriz, &dib.altura, &dib.ancho,archivoEntrada2);
             else if(strcmp(filtro,"concatenar-vertical")==0 && archivoEntrada2!= NULL)
@@ -202,7 +199,14 @@ void ProcesarUtilidad(const char* archivoEntrada, const char* filtroEntrante)
     char* filtro = NULL;
 
     strcpy(copia,filtroEntrante);
-    filtro=copia;
+    if (strchr(copia, '='))
+    {
+        filtro= strtok(copia, "=");//nombre filtro
+    }
+    else
+    {
+        filtro=copia;
+    }
     if(BuscarFiltro(filtro))
     {
         char nombreEntrada[100];
@@ -396,9 +400,7 @@ bool BuscarFiltro(const char* filtro)
         return true;
     else if (strcmp(filtro, "comodin2") == 0)
         return true;
-    else if (strcmp(filtro, "comodin3") == 0)
-        return true;
-        else if(strcmp(filtro,"info")==0)
+    else if(strcmp(filtro,"info")==0)
         return true;
     else if(strcmp(filtro, "help") == 0)
         return true;
