@@ -380,7 +380,13 @@ int agregar_filtro(instrucciones* inst, const char* filtro)
     if (!nuevos_filtros) return ERROR_MEMORIA;
 
     inst->filtros = nuevos_filtros;
-    inst->filtros[inst->cant_filtros] = filtro;
+    char* copia = malloc(strlen(filtro) + 1);
+    if (!copia)
+        return ERROR_MEMORIA;
+
+    strcpy(copia, filtro);
+
+    inst->filtros[inst->cant_filtros] = copia;
     inst->cant_filtros++;
     return EXITO;
 }
@@ -391,13 +397,21 @@ int agregar_utilidad(instrucciones* inst, const char* utilidad)
     if (!nuevas_utilidades) return ERROR_MEMORIA;
 
     inst->utilidades = nuevas_utilidades;
-    inst->utilidades[inst->cant_utilidades] = utilidad;
+    char* copia = malloc(strlen(utilidad) + 1);
+    if (!copia)
+        return ERROR_MEMORIA;
+
+    strcpy(copia, utilidad);
+
+    inst->filtros[inst->cant_utilidades] = copia;
     inst->cant_utilidades++;
     return EXITO;
 }
 
 void liberar_instrucciones(instrucciones* inst)
 {
+    for(int i = 0; i < inst->cant_filtros; i++)
+        free((void*)inst->filtros[i]);
     free(inst->filtros);
     free(inst->utilidades);
 }
