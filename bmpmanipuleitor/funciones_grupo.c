@@ -424,7 +424,7 @@ int CargarInstrucciones(instrucciones* inst, const char* cadena)
         return EXITO;
     }
     //Si no esta en filtro y utilidad (q ya paso), error
-    if(BuscarFiltro1(filtro) == SIN_FILTRO)
+    if(BuscarFiltro(filtro) == SIN_FILTRO)
     {
         printf("Filtro '%s' no reconocido.\n", filtro);
         return ERROR_ARGUMENTO;
