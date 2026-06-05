@@ -145,6 +145,7 @@ int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const 
     fseek(ImgOriginal, header.InicioImagen, SEEK_SET);
     LeerImagen(ImgOriginal, matriz, dib.ancho, dib.altura);
 
+    int r = EXITO;
     switch(BuscarFiltro(filtro))
     {
         case FILTRO_ESCALA_GRISES:
@@ -154,10 +155,10 @@ int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const 
             InvertirColores(matriz, dib.altura, dib.ancho);
             break;
         case FILTRO_ESPEJAR_H:
-            EspejarHorizontal(&matriz, &dib.altura, &dib.ancho);
+            r = EspejarHorizontal(&matriz, &dib.altura, &dib.ancho);
             break;
         case FILTRO_ESPEJAR_V:
-            EspejarVertical(&matriz, &dib.altura, &dib.ancho);
+            r = EspejarVertical(&matriz, &dib.altura, &dib.ancho);
             break;
         case FILTRO_AUMENTAR_CONTRASTE:
             AumentoContraste(matriz, dib.altura, dib.ancho, porcentaje);
@@ -175,16 +176,16 @@ int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const 
             FiltroRojoMatriz(matriz, dib.altura, dib.ancho, porcentaje);
             break;
         case FILTRO_RECORTAR:
-            Recortar(&matriz, &dib.altura, &dib.ancho, porcentaje);
+            r = Recortar(&matriz, &dib.altura, &dib.ancho, porcentaje);
             break;
         case FILTRO_ACHICAR:
-            AchicarImagen(&matriz, &dib.altura, &dib.ancho, porcentaje);
+            r = AchicarImagen(&matriz, &dib.altura, &dib.ancho, porcentaje);
             break;
         case FILTRO_ROTAR_DERECHA:
-            RotarDerecha(&matriz, &dib.altura, &dib.ancho);
+            r = RotarDerecha(&matriz, &dib.altura, &dib.ancho);
             break;
         case FILTRO_ROTAR_IZQUIERDA:
-            RotarIzquierda(&matriz, &dib.altura, &dib.ancho);
+            r = RotarIzquierda(&matriz, &dib.altura, &dib.ancho);
             break;
         case FILTRO_COMODIN1:
             Cebratricolor(matriz, dib.altura, dib.ancho, porcentaje);
@@ -196,14 +197,14 @@ int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const 
         {
             char nombreEntrada2[100];
             strcpy(nombreEntrada2, archivoEntrada2);
-            ConcatenarHorizontal(&matriz, &dib.altura, &dib.ancho, nombreEntrada2);
+            r = ConcatenarHorizontal(&matriz, &dib.altura, &dib.ancho, nombreEntrada2);
             break;
         }
         case FILTRO_CONCATENAR_V:
         {
             char nombreEntrada2[100];
             strcpy(nombreEntrada2, archivoEntrada2);
-            ConcatenarVertical(&matriz, &dib.altura, &dib.ancho, nombreEntrada2);
+            r = ConcatenarVertical(&matriz, &dib.altura, &dib.ancho, nombreEntrada2);
             break;
         }//ESTE DEFAULT NO DEBERIA PASAR PERO POR SI ACASO
         default:
@@ -211,6 +212,12 @@ int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const 
             destruirMatriz((void**)matriz, dib.altura);
             fclose(ImgOriginal);
             return ERROR_ARGUMENTO;
+    }
+    if(r != EXITO)
+    {
+        destruirMatriz((void**)matriz, dib.altura);
+        fclose(ImgOriginal);
+        return r;
     }
     // Guardamos
     char archivoSalida[145];

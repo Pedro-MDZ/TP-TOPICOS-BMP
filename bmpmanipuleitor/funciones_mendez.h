@@ -3,16 +3,16 @@
 
 #include "funciones_grupo.h"
 
-void RotarDerecha(Pixel*** matriz, int* filas, int* columnas);
-void RotarIzquierda(Pixel*** matriz, int* filas, int* columnas);
+int RotarDerecha(Pixel*** matriz, int* filas, int* columnas);
+int RotarIzquierda(Pixel*** matriz, int* filas, int* columnas);
 
-void EspejarHorizontal(Pixel*** matriz, int *filas, int *columnas);
-void EspejarVertical(Pixel*** matriz, int *filas, int *columnas);
+int EspejarHorizontal(Pixel*** matriz, int *filas, int *columnas);
+int EspejarVertical(Pixel*** matriz, int *filas, int *columnas);
 
-void Recortar(Pixel*** matriz, int *filas, int *columnas,float porcentaje);
-void AchicarImagen(Pixel*** matriz, int* filas, int* columnas, float porcentaje);
-void ConcatenarVertical(Pixel*** matriz1, int* filas1, int* columnas1, const char* archivoEntrada);
-void ConcatenarHorizontal(Pixel*** matriz1, int* filas1, int* columnas1,const char* archivoEntrada);
+int Recortar(Pixel*** matriz, int *filas, int *columnas,float porcentaje);
+int AchicarImagen(Pixel*** matriz, int* filas, int* columnas, float porcentaje);
+int ConcatenarVertical(Pixel*** matriz1, int* filas1, int* columnas1, const char* archivoEntrada);
+int ConcatenarHorizontal(Pixel*** matriz1, int* filas1, int* columnas1,const char* archivoEntrada);
 
 void instInfo(BMPHeader *header, DIBHeader *dheader,const char *nombreImagen);
 void instHelp(void);

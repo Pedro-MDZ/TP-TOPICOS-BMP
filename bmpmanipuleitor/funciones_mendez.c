@@ -11,7 +11,7 @@
 
 
 
-void RotarDerecha(Pixel*** matriz, int* filas, int* columnas)
+int RotarDerecha(Pixel*** matriz, int* filas, int* columnas)
 {
     int nuevoAlto = *columnas;
     int nuevoAncho = *filas;
@@ -20,7 +20,7 @@ void RotarDerecha(Pixel*** matriz, int* filas, int* columnas)
     if (!nuevaMatriz)
     {
         puts("Error al rotar: sin memoria");
-        return;
+        return ERROR_MEMORIA;
     }
 
     for (int i = 0; i < *filas; i++)
@@ -35,9 +35,10 @@ void RotarDerecha(Pixel*** matriz, int* filas, int* columnas)
     *matriz = nuevaMatriz;
     *filas = nuevoAlto;
     *columnas = nuevoAncho;
+    return EXITO;
 }
 
-void RotarIzquierda(Pixel*** matriz, int* filas, int* columnas)
+int RotarIzquierda(Pixel*** matriz, int* filas, int* columnas)
 {
     int nuevoAlto = *columnas;
     int nuevoAncho = *filas;
@@ -46,7 +47,7 @@ void RotarIzquierda(Pixel*** matriz, int* filas, int* columnas)
     if (!nuevaMatriz)
     {
         puts("Error al rotar: sin memoria");
-        return;
+        return ERROR_MEMORIA;
     }
 
     for (int i = 0; i < *filas; i++)
@@ -61,9 +62,10 @@ void RotarIzquierda(Pixel*** matriz, int* filas, int* columnas)
     *matriz = nuevaMatriz;
     *filas = nuevoAlto;
     *columnas = nuevoAncho;
+    return EXITO;
 }
 
-void EspejarHorizontal(Pixel*** matriz, int *filas, int *columnas)
+int EspejarHorizontal(Pixel*** matriz, int *filas, int *columnas)
 {
 
     int nuevoAlto = *filas;
@@ -73,7 +75,7 @@ void EspejarHorizontal(Pixel*** matriz, int *filas, int *columnas)
     if (!nuevaMatriz)
     {
         puts("Error al espejar-horizontal: sin memoria");
-        return;
+        return ERROR_MEMORIA;
     }
 
     for (int i = 0; i < *filas; i++)
@@ -91,10 +93,11 @@ void EspejarHorizontal(Pixel*** matriz, int *filas, int *columnas)
     *matriz = nuevaMatriz;
     *filas = nuevoAlto;
     *columnas = nuevoAncho;
+    return EXITO;
 }
 
 
-void EspejarVertical(Pixel*** matriz, int *filas, int *columnas)
+int EspejarVertical(Pixel*** matriz, int *filas, int *columnas)
 {
 
     int nuevoAlto = *filas;
@@ -104,7 +107,7 @@ void EspejarVertical(Pixel*** matriz, int *filas, int *columnas)
     if (!nuevaMatriz)
     {
         puts("Error al espejar-horizontal: sin memoria");
-        return;
+        return ERROR_MEMORIA;
     }
 
     for (int i = 0; i < *filas; i++)
@@ -122,9 +125,10 @@ void EspejarVertical(Pixel*** matriz, int *filas, int *columnas)
     *matriz = nuevaMatriz;
     *filas = nuevoAlto;
     *columnas = nuevoAncho;
+    return EXITO;
 }
 
-void Recortar(Pixel*** matriz, int *filas, int *columnas, float porcentaje)
+int Recortar(Pixel*** matriz, int *filas, int *columnas, float porcentaje)
 {
     porcentaje= porcentaje/100;
     int nuevasFilas = (*filas) * porcentaje;
@@ -139,7 +143,7 @@ void Recortar(Pixel*** matriz, int *filas, int *columnas, float porcentaje)
     if (!nuevaMatriz)
     {
         puts("Error al recortar: sin memoria.");
-        return;
+        return ERROR_MEMORIA;
     }
 
 
@@ -156,10 +160,11 @@ void Recortar(Pixel*** matriz, int *filas, int *columnas, float porcentaje)
     *matriz = nuevaMatriz;
     *filas = nuevasFilas;
     *columnas = nuevasColumnas;
+    return EXITO;
 }
 
 
-void AchicarImagen(Pixel*** matriz, int* filas, int* columnas, float porcentaje)
+int AchicarImagen(Pixel*** matriz, int* filas, int* columnas, float porcentaje)
 {
     int nuevasFilas = (*filas * porcentaje) / 100;
     int nuevasColumnas = (*columnas * porcentaje) / 100;
@@ -170,7 +175,7 @@ void AchicarImagen(Pixel*** matriz, int* filas, int* columnas, float porcentaje)
     if (!matrizReducida)
     {
         printf("Error al achicar: sin memoria.");
-        return;
+        return ERROR_MEMORIA;
     }
 
     float factorFila = (float)(*filas) / nuevasFilas;
@@ -199,19 +204,19 @@ void AchicarImagen(Pixel*** matriz, int* filas, int* columnas, float porcentaje)
     *matriz= matrizReducida;
     *filas = nuevasFilas;
     *columnas = nuevasColumnas;
-
+    return EXITO;
 }
 
 
 
-void ConcatenarVertical(Pixel*** matriz1, int* filas1, int* columnas1,const char* archivoEntrada)
+int ConcatenarVertical(Pixel*** matriz1, int* filas1, int* columnas1,const char* archivoEntrada)
 {
     FILE *ImgSegunda = fopen(archivoEntrada, "rb");
 
         if (!ImgSegunda)
         {
             printf("Error abriendo archivos\n");
-            return;
+            return ERROR_ARCHIVO;
         }
 
         BMPHeader header;
@@ -225,7 +230,7 @@ void ConcatenarVertical(Pixel*** matriz1, int* filas1, int* columnas1,const char
         {
             puts("Error al concatenar vertical: sin memoria.");
             fclose(ImgSegunda);
-            return;
+            return ERROR_MEMORIA;
         }
 
         fseek(ImgSegunda, header.InicioImagen, SEEK_SET);
@@ -240,7 +245,7 @@ void ConcatenarVertical(Pixel*** matriz1, int* filas1, int* columnas1,const char
         puts("Error al concatenar vertical: sin memoria.");
         destruirMatriz((void**)matriz2, dib.altura);
         fclose(ImgSegunda);
-        return;
+        return ERROR_MEMORIA;
     }
 
     Pixel Relleno = {0, 165, 255}; //// Naranja
@@ -277,16 +282,17 @@ void ConcatenarVertical(Pixel*** matriz1, int* filas1, int* columnas1,const char
 
     destruirMatriz((void**)matriz2, dib.altura);
     fclose(ImgSegunda);
+    return EXITO;
 }
 
-void ConcatenarHorizontal(Pixel*** matriz1, int* filas1, int* columnas1,const char* archivoEntrada)
+int ConcatenarHorizontal(Pixel*** matriz1, int* filas1, int* columnas1,const char* archivoEntrada)
 {
     FILE *ImgSegunda = fopen(archivoEntrada, "rb");
 
         if (!ImgSegunda)
         {
             printf("Error abriendo archivos\n");
-            return;
+            return ERROR_ARCHIVO;
         }
 
         BMPHeader header;
@@ -300,7 +306,7 @@ void ConcatenarHorizontal(Pixel*** matriz1, int* filas1, int* columnas1,const ch
         {
             puts("Error al concatenar horizontal: sin memoria.");
             fclose(ImgSegunda);
-            return;
+            return ERROR_MEMORIA;
         }
 
         fseek(ImgSegunda, header.InicioImagen, SEEK_SET);
@@ -315,7 +321,7 @@ void ConcatenarHorizontal(Pixel*** matriz1, int* filas1, int* columnas1,const ch
         puts("Error al concatenar horizontal: sin memoria.");
         destruirMatriz((void**)matriz2, dib.altura);
         fclose(ImgSegunda);
-        return;
+        return ERROR_MEMORIA;
     }
 
     Pixel Relleno = {128, 0, 128}; //// Violeta
@@ -352,6 +358,7 @@ void ConcatenarHorizontal(Pixel*** matriz1, int* filas1, int* columnas1,const ch
 
     destruirMatriz((void**)matriz2, dib.altura);
     fclose(ImgSegunda);
+    return EXITO;
 }
 
 void instInfo(BMPHeader *header, DIBHeader *dheader,const char *nombreImagen)
