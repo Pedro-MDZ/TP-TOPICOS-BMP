@@ -211,7 +211,6 @@ void ConcatenarVertical(Pixel*** matriz1, int* filas1, int* columnas1,const char
         if (!ImgSegunda)
         {
             printf("Error abriendo archivos\n");
-            fclose(ImgSegunda);
             return;
         }
 
@@ -239,6 +238,7 @@ void ConcatenarVertical(Pixel*** matriz1, int* filas1, int* columnas1,const char
     if (!matrizFinal)
     {
         puts("Error al concatenar vertical: sin memoria.");
+        destruirMatriz((void**)matriz2, dib.altura);
         fclose(ImgSegunda);
         return;
     }
@@ -274,6 +274,9 @@ void ConcatenarVertical(Pixel*** matriz1, int* filas1, int* columnas1,const char
     *matriz1 = matrizFinal;
     *filas1 = nuevasFilas;
     *columnas1 = nuevasColumnas;
+
+    destruirMatriz((void**)matriz2, dib.altura);
+    fclose(ImgSegunda);
 }
 
 void ConcatenarHorizontal(Pixel*** matriz1, int* filas1, int* columnas1,const char* archivoEntrada)
@@ -283,7 +286,6 @@ void ConcatenarHorizontal(Pixel*** matriz1, int* filas1, int* columnas1,const ch
         if (!ImgSegunda)
         {
             printf("Error abriendo archivos\n");
-            fclose(ImgSegunda);
             return;
         }
 
@@ -311,6 +313,7 @@ void ConcatenarHorizontal(Pixel*** matriz1, int* filas1, int* columnas1,const ch
     if (!matrizFinal)
     {
         puts("Error al concatenar horizontal: sin memoria.");
+        destruirMatriz((void**)matriz2, dib.altura);
         fclose(ImgSegunda);
         return;
     }
@@ -346,6 +349,9 @@ void ConcatenarHorizontal(Pixel*** matriz1, int* filas1, int* columnas1,const ch
     *matriz1 = matrizFinal;
     *filas1 = nuevasFilas;
     *columnas1 = nuevasColumnas;
+
+    destruirMatriz((void**)matriz2, dib.altura);
+    fclose(ImgSegunda);
 }
 
 void instInfo(BMPHeader *header, DIBHeader *dheader,const char *nombreImagen)
