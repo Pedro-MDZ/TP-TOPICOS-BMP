@@ -90,8 +90,12 @@ int procesar_imagen(int argc, char* argv[])
         printf("\n%sArgumentos aceptados: ",txt);
         mostrarInstrucciones(&inst);
     }
-    if (validaCantImg(&inst))
+    if (validaCantImg(&inst) && validarImagen(inst.imagenes[0]))
     {
+        if(verboseAct(&inst))
+        {
+            validarVerbose(inst.imagenes[0]);
+        }
         int resultado = EXITO;
         int i = 0;
         while (i < inst.cant_filtros && resultado == EXITO)
@@ -100,13 +104,14 @@ int procesar_imagen(int argc, char* argv[])
              strcmp(inst.filtros[i], "concatenar-vertical") == 0)
              && inst.cant_imagenes < 2)
             {
-                printf("Error: '%s' requiere dos imagenes.\n", inst.filtros[i]);
+                printf("\n%sError: '%s' requiere dos imagenes.\n",txt, inst.filtros[i]);
                 i++;
                 continue;
             }
-            resultado = ProcesarImagen(inst.imagenes[0], inst.imagenes[1], inst.filtros[i]);
+            resultado = ProcesarImagen(inst.imagenes[0], inst.imagenes[1], inst.filtros[i],inst.verbose);
             i++;
         }
+        printf("\n%sProceso finalizado - %d archivos generados",txt,i);
         liberar_instrucciones(&inst);
         return resultado;
     }
@@ -117,17 +122,13 @@ int procesar_imagen(int argc, char* argv[])
 
 //Crear imagen por filtro
 
-int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const char* filtroEntrante)
+int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const char* filtroEntrante,const int verbose)
 {
-    //si tiene un porcentaje dividirlo el filtroEntrante para concerlo
-    //validando headerBMP
-    //Archivo valido
-    //Si tiene un porcentaje dividirlo el filtroEntrante para conocerlo
+
     char copia[40];
     char* filtro = NULL;
     char* valorFiltro = NULL;
     float porcentaje;
-
 
     strcpy(copia,filtroEntrante);
     if (strchr(copia, '='))
@@ -155,18 +156,29 @@ int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const 
     fread(&header, sizeof(BMPHeader), 1, ImgOriginal);
     fread(&dib, sizeof(DIBHeader), 1, ImgOriginal);
 
-
+    if(verbose != 0)
+        printf("\n%sReservando memoria para matriz %dx%d...",txt,dib.ancho,dib.altura);
     Pixel** matriz = (Pixel**)crearMatriz(sizeof(Pixel), dib.altura, dib.ancho);
     if (!matriz)
     {
-        puts("SIN MEMORIA");
+
+        printf("%sSIN MEMORIA",txt);
         fclose(ImgOriginal);
         return ERROR_MEMORIA;
     }
+    if(verbose != 0)
+        printf("\n%sMemoria reservada exitosamente (%d pixeles)",txt,(dib.altura*dib.ancho));
 
     fseek(ImgOriginal, header.InicioImagen, SEEK_SET);
     LeerImagen(ImgOriginal, matriz, dib.ancho, dib.altura);
+    if(verbose != 0)
+    {
+        printf("\n%sLeyendo datos de imagen...",txt);
+        printf("\n%sDatos cargados correctamente",txt);
+    }
 
+    if(verbose != 0)
+        printf("\n%s Aplicando filtro: %s",txt,filtro);
     switch(BuscarFiltro1(filtro))
     {
         case FILTRO_ESCALA_GRISES:
@@ -176,10 +188,10 @@ int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const 
             InvertirColores(matriz, dib.altura, dib.ancho);
             break;
         case FILTRO_ESPEJAR_H:
-            EspejarHorizontal(&matriz, &dib.altura, &dib.ancho);
+            EspejarHorizontal(&matriz, &dib.altura, &dib.ancho,verbose);
             break;
         case FILTRO_ESPEJAR_V:
-            EspejarVertical(&matriz, &dib.altura, &dib.ancho);
+            EspejarVertical(&matriz, &dib.altura, &dib.ancho,verbose);
             break;
         case FILTRO_AUMENTAR_CONTRASTE:
             AumentoContraste(matriz, dib.altura, dib.ancho, porcentaje);
@@ -197,16 +209,16 @@ int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const 
             FiltroRojoMatriz(matriz, dib.altura, dib.ancho, porcentaje);
             break;
         case FILTRO_RECORTAR:
-            Recortar(&matriz, &dib.altura, &dib.ancho, porcentaje);
+            Recortar(&matriz, &dib.altura, &dib.ancho, porcentaje,verbose);
             break;
         case FILTRO_ACHICAR:
-            AchicarImagen(&matriz, &dib.altura, &dib.ancho, porcentaje);
+            AchicarImagen(&matriz, &dib.altura, &dib.ancho, porcentaje,verbose);
             break;
         case FILTRO_ROTAR_DERECHA:
-            RotarDerecha(&matriz, &dib.altura, &dib.ancho);
+            RotarDerecha(&matriz, &dib.altura, &dib.ancho,verbose);
             break;
         case FILTRO_ROTAR_IZQUIERDA:
-            RotarIzquierda(&matriz, &dib.altura, &dib.ancho);
+            RotarIzquierda(&matriz, &dib.altura, &dib.ancho,verbose);
             break;
         case FILTRO_COMODIN1:
             Cebratricolor(matriz, dib.altura, dib.ancho, porcentaje);
@@ -218,14 +230,14 @@ int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const 
         {
             char nombreEntrada2[100];
             strcpy(nombreEntrada2, archivoEntrada2);
-            ConcatenarHorizontal(&matriz, &dib.altura, &dib.ancho, nombreEntrada2);
+            ConcatenarHorizontal(&matriz, &dib.altura, &dib.ancho, nombreEntrada2,verbose);
             break;
         }
         case FILTRO_CONCATENAR_V:
         {
             char nombreEntrada2[100];
             strcpy(nombreEntrada2, archivoEntrada2);
-            ConcatenarVertical(&matriz, &dib.altura, &dib.ancho, nombreEntrada2);
+            ConcatenarVertical(&matriz, &dib.altura, &dib.ancho, nombreEntrada2,verbose);
             break;
         }//ESTE DEFAULT NO DEBERIA PASAR PERO POR SI ACASO
         default:
@@ -233,29 +245,31 @@ int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const 
             destruirMatriz((void**)matriz, dib.altura);
             fclose(ImgOriginal);
             return ERROR_ARGUMENTO;
-    }
-    // Guardamos
-    char archivoSalida[145];
-    snprintf(archivoSalida, sizeof(archivoSalida), "MIEL_%s_%s", filtro, archivoEntrada);
-    FILE *ImgNueva = fopen(archivoSalida, "wb");
-    if (!ImgNueva)
-    {
-        printf("Error abriendo archivos\n");
-        fclose(ImgOriginal);
+        }
+        // Guardamos
+        char archivoSalida[145];
+        snprintf(archivoSalida, sizeof(archivoSalida), "MIEL_%s_%s", filtro, archivoEntrada);
+        FILE *ImgNueva = fopen(archivoSalida, "wb");
+        if (!ImgNueva)
+        {
+            printf("Error abriendo archivos\n");
+            fclose(ImgOriginal);
+            destruirMatriz((void**)matriz, dib.altura);
+            return ERROR_ARCHIVO;
+        }
+        fwrite(&header, sizeof(BMPHeader), 1, ImgNueva);
+        fwrite(&dib, sizeof(DIBHeader), 1, ImgNueva);
+        fseek(ImgNueva, header.InicioImagen, SEEK_SET);
+        EscribirImagen(ImgNueva, matriz, dib.ancho, dib.altura);
+
         destruirMatriz((void**)matriz, dib.altura);
-        return ERROR_ARCHIVO;
-    }
-    fwrite(&header, sizeof(BMPHeader), 1, ImgNueva);
-    fwrite(&dib, sizeof(DIBHeader), 1, ImgNueva);
-    fseek(ImgNueva, header.InicioImagen, SEEK_SET);
-    EscribirImagen(ImgNueva, matriz, dib.ancho, dib.altura);
+        fclose(ImgNueva);
+        fclose(ImgOriginal);
 
-    destruirMatriz((void**)matriz, dib.altura);
-    fclose(ImgNueva);
-    fclose(ImgOriginal);
+        printf("\n%sFiltro '%s' aplicado. Imagen guardada como: %s",txt, filtro, archivoSalida);
+        return EXITO;
 
-    printf("\nFiltro '%s' aplicado. Imagen guardada como: %s\n", filtro, archivoSalida);
-    return EXITO;
+
 }
 
 void ProcesarUtilidad(const char* archivoEntrada, const char* filtroEntrante)
@@ -479,7 +493,7 @@ int CargarInstrucciones(instrucciones* inst, const char* cadena)
     }
 
     if(!repetido)
-        agregar_filtro(inst,filtro);
+        agregar_filtro(inst,cadena+2);
 
     return EXITO;
 }

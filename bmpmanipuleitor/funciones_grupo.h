@@ -89,7 +89,7 @@ int procesar_imagen(int argc, char* argv[]);
 
 void ProcesarUtilidad(const char* archivoEntrada,const char* utilidad);
 
-int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2, const char* filtro);
+int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2, const char* filtro,const int);
 
 void** crearMatriz(size_t tamElem, int filas, int columnas);
 
