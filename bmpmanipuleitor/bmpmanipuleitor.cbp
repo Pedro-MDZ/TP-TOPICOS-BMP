@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="unlam_3.bmp --escala-de-grises --info --help" />
+				<Option parameters="asfdfds ffdfsf paint.jpg unlam_3.bmp --escala-de-grises --info --validar" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
@@ -32,10 +32,6 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="funciones_alvarezorozco.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="funciones_alvarezorozco.h" />
 		<Unit filename="funciones_grupo.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -44,6 +40,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="funciones_luna.h" />
+		<Unit filename="funciones_mendez.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="funciones_mendez.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>

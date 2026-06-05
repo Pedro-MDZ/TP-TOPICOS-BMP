@@ -3,13 +3,10 @@ Apellido: Luna, Josue Martiniano
 DNI: 44598222
 Entrega: Sí
 
-Apellido: Alvarez Orozco, Bautista
-DNI: 46091703
+Apellido: Mendez Mamani, Pedro
+DNI: 46749197
 Entrega: Sí
 
-Apellido: Espindola, Facundo Alejandro
-DNI: 44587968
-Entrega: No
 */
 #ifndef FUNCIONES_GRUPO_H
 #define FUNCIONES_GRUPO_H

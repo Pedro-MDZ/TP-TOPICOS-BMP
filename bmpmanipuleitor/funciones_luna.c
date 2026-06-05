@@ -1,10 +1,6 @@
 #include "funciones_grupo.h"
 #include "funciones_luna.h"
-#define GRUPO "MIEL"
-#define INTEGRANTE1 " DNI - APELLIDO, Nombre"
-#define INTEGRANTE2 " DNI - APELLIDO, Nombre"
-#define INTEGRANTE3 " DNI - APELLIDO, Nombre"
-#define PROY "bmpmanipuleitor.exe"
+
 
 
 void FiltroVerdeMatriz(Pixel** matriz, int filas, int columnas, float porcentaje)
@@ -162,49 +158,11 @@ void Cebratricolor(Pixel** matriz, int filas, int columnas, float porcentaje)
     }
 }
 
-void instInfo(BMPHeader *header, DIBHeader *dheader,char *nombreImagen)
-{
-    unsigned int padding = (4 - (dheader->ancho * BYTES_POR_PIXEL) % 4) % 4;
-    printf("\nArchivo: %s",nombreImagen);
-    printf("\nTamanio del archivo: %d bytes",header->tamArch);
-    printf("\nDimensiones: %d x %d",dheader->ancho,dheader->altura);
-    printf("\nProfundidad: %d bits",dheader->tamPunto);
-    printf("\nCompresion: %d ",dheader->compresion);
-    printf("\nOffset de datos: %d bytes",(int)(sizeof(BMPHeader)+sizeof(DIBHeader)));
-    printf("\nTamanio de la imagen: %d bytes",dheader->tamImg);
-    printf("\nPadding por fila: %d bytes",padding);
-}
-
-void instHelp(void)
-{
-    printf("\nGRUPO: %s",GRUPO);
-    printf("\nINTEGRANTES: \n%s\n%s\n%s",INTEGRANTE1,INTEGRANTE2,INTEGRANTE3);
-    printf("\nUSO: \n%s\t--negativo",PROY);
-    printf("\n%s\t--escala-de-grises",PROY);
-    printf("\n%s\t--espejar-horizontal",PROY);
-    printf("\n%s\t--espejar-vertical",PROY);
-    printf("\n%s\t--aumentar-contraste=X",PROY);
-    printf("\n%s\t--reducir-contraste=X",PROY);
-    printf("\n%s\t--tonalidad-azul=X",PROY);
-    printf("\n%s\t--tonalidad-verde=X",PROY);
-    printf("\n%s\t--tonalidad-roja=X",PROY);
-    printf("\n%s\t--recortar=X",PROY);
-    printf("\n%s\t--achicar=X",PROY);
-    printf("\n%s\t--rotar-derecha",PROY);
-    printf("\n%s\t--rotar-izquierda",PROY);
-    printf("\n%s\t--concatenar-horizontal",PROY);
-    printf("\n%s\t--concatenar-vertical",PROY);
-    printf("\nEJEMPLO: \n%s --rotar-derecha imagen1.bmp",PROY);
-
-
-    return;
-}
-
 void Pixelado(Pixel** matriz, int filas, int columnas, float porcentaje)
 {
     int tamBloque = (int)porcentaje;
     if (tamBloque < 1) tamBloque = 1;
- 
+
     for (int i = 0; i < filas; i += tamBloque)
     {
         for (int j = 0; j < columnas; j += tamBloque)
@@ -212,7 +170,7 @@ void Pixelado(Pixel** matriz, int filas, int columnas, float porcentaje)
             // Calcular el promedio R, G, B del bloque
             long sumaR = 0, sumaG = 0, sumaB = 0;
             int cant = 0;
- 
+
             for (int bi = i; bi < i + tamBloque && bi < filas; bi++)
             {
                 for (int bj = j; bj < j + tamBloque && bj < columnas; bj++)
@@ -223,11 +181,11 @@ void Pixelado(Pixel** matriz, int filas, int columnas, float porcentaje)
                     cant++;
                 }
             }
- 
+
             unsigned char promedioR = (unsigned char)(sumaR / cant);
             unsigned char promedioG = (unsigned char)(sumaG / cant);
             unsigned char promedioB = (unsigned char)(sumaB / cant);
- 
+
             // Pintar todo el bloque con ese promedio
             for (int bi = i; bi < i + tamBloque && bi < filas; bi++)
             {
@@ -245,17 +203,17 @@ void Pixelado(Pixel** matriz, int filas, int columnas, float porcentaje)
 void Solarizacion(Pixel** matriz, int filas, int columnas, float porcentaje)
 {
     int umbral = (int)(porcentaje * 255.0f / 100.0f);
- 
+
     for (int i = 0; i < filas; i++)
     {
         for (int j = 0; j < columnas; j++)
         {
             if (matriz[i][j].rojo > umbral)
                 matriz[i][j].rojo = 255 - matriz[i][j].rojo;
- 
+
             if (matriz[i][j].verde > umbral)
                 matriz[i][j].verde = 255 - matriz[i][j].verde;
- 
+
             if (matriz[i][j].azul > umbral)
                 matriz[i][j].azul = 255 - matriz[i][j].azul;
         }

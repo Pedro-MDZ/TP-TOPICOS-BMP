@@ -18,3 +18,8 @@ void Recortar(Pixel*** matriz, int *filas, int *columnas,float porcentaje);
 void AchicarImagen(Pixel*** matriz, int* filas, int* columnas, float porcentaje);
 void ConcatenarVertical(Pixel*** matriz1, int* filas1, int* columnas1, const char* archivoEntrada);
 void ConcatenarHorizontal(Pixel*** matriz1, int* filas1, int* columnas1,const char* archivoEntrada);
+
+void instInfo(BMPHeader *header, DIBHeader *dheader,char *nombreImagen);
+void instHelp(void);
+void instValidarBMP(BMPHeader *header, DIBHeader *dheader);
+bool validarImagen(const char* imagen);

@@ -14,7 +14,7 @@ Entrega: No
 
 #include "funciones_grupo.h"
 #include "funciones_luna.h"
-#include "funciones_alvarezorozco.h"
+#include "funciones_mendez.h"
 
 
 
@@ -82,8 +82,6 @@ void ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const
 
 
             FILE *ImgOriginal = fopen(archivoEntrada, "rb");
-
-
 
             if (!ImgOriginal)
             {
@@ -155,7 +153,12 @@ void ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const
                 destruirMatriz((void**)matriz, dib.altura);
                 return;
             }
-
+            else if(strcmp(filtro,"validar")==0)
+            {
+                fclose(ImgOriginal);
+                destruirMatriz((void**)matriz, dib.altura);
+                return;
+            }
 
 
 
@@ -200,7 +203,15 @@ void ProcesarUtilidad(const char* archivoEntrada, const char* filtroEntrante)
     char* filtro = NULL;
 
     strcpy(copia,filtroEntrante);
-    filtro=copia;
+    if (strchr(copia, '='))
+    {
+        filtro= strtok(copia, "=");//nombre filtro
+    }
+    else
+    {
+        filtro=copia;
+
+    }
     if(BuscarFiltro(filtro))
     {
         char nombreEntrada[100];
@@ -230,8 +241,14 @@ void ProcesarUtilidad(const char* archivoEntrada, const char* filtroEntrante)
                 fclose(ImgOriginal);
                 return;
             }
-        else
+        else if(strcmp(filtro,"validar")==0)
+        {
+            instValidarBMP(&header,&dib);
+            fclose(ImgOriginal);
             return;
+        }
+        else
+            return;//ARREGLAR: TIENE QUE DEVOLVER UN CODIGO DE ERROR
     }
     else
         printf("Utilidad '%s' no reconocido.\n", filtro);
@@ -369,10 +386,11 @@ void CargarInstrucciones(instrucciones* inst, const char* cadena)
             agregar_filtro(&(*inst),cadena + 2);
         }
     }
-    else
+    else if(validarImagen(cadena))
     {
         agregar_imagen(&(*inst),cadena);
     }
+    else return;
 }
 
 bool BuscarFiltro(const char* filtro)
@@ -415,6 +433,8 @@ bool BuscarFiltro(const char* filtro)
         return true;
     else if(strcmp(filtro, "help") == 0)
         return true;
+    else if(strcmp(filtro, "validar") == 0)
+        return true;
     else
         return false;
 }
@@ -428,16 +448,5 @@ bool validaCantImg(instrucciones *inst)
     }
         return true;
 }
-
-bool BuscarUtilidad(const char* utilidad)
-{
-    if (strcmp(utilidad, "info") == 0)
-        return true;
-    if (strcmp(utilidad, "help") == 0)
-        return true;
-    else
-        return false;
-}
-
 
 

@@ -1,5 +1,14 @@
 #include "funciones_grupo.h"
-#include "funciones_alvarezorozco.h"
+#include "funciones_mendez.h"
+
+#define GRUPO "MIEL"
+#define INTEGRANTE1 " DNI - APELLIDO, Nombre"
+#define INTEGRANTE2 " DNI - APELLIDO, Nombre"
+#define INTEGRANTE3 " DNI - APELLIDO, Nombre"
+#define PROY "bmpmanipuleitor.exe"
+#define VALIDO "ARCHIVO VALIDO - Listo para procesar"
+#define INVALIDO "ARCHIVO INVALIDO - No se puede procesar"
+
 
 
 
@@ -172,11 +181,11 @@ void AchicarImagen(Pixel*** matriz, int* filas, int* columnas, float porcentaje)
     {
         for (int j = 0; j < nuevasColumnas; j++)
         {
-            
+
             int origI = (int)(i * factorFila);
             int origJ = (int)(j * factorColumna);
 
-           
+
             if (origI >= *filas)
                 origI = *filas - 1;
             if (origJ >= *columnas)
@@ -338,4 +347,106 @@ void ConcatenarHorizontal(Pixel*** matriz1, int* filas1, int* columnas1,const ch
     *matriz1 = matrizFinal;
     *filas1 = nuevasFilas;
     *columnas1 = nuevasColumnas;
+}
+
+void instInfo(BMPHeader *header, DIBHeader *dheader,char *nombreImagen)
+{
+    unsigned int padding = (4 - (dheader->ancho * BYTES_POR_PIXEL) % 4);
+    printf("\nArchivo: %s",nombreImagen);
+    printf("\nTamanio del archivo: %d bytes",header->tamArch);
+    printf("\nDimensiones: %d x %d",dheader->ancho,dheader->altura);
+    printf("\nProfundidad: %d bits",dheader->tamPunto);
+    printf("\nCompresion: %d ",dheader->compresion);
+    printf("\nOffset de datos: %d bytes",(int)(sizeof(BMPHeader)+sizeof(DIBHeader)));
+    printf("\nTamanio de la imagen: %d bytes",dheader->tamImg);
+    printf("\nPadding por fila: %d bytes",padding);
+}
+
+void instHelp(void)
+{
+    printf("\nGRUPO: %s",GRUPO);
+    printf("\nINTEGRANTES: \n%s\n%s\n%s",INTEGRANTE1,INTEGRANTE2,INTEGRANTE3);
+    printf("\nUSO: \n%s\t--negativo",PROY);
+    printf("\n%s\t--escala-de-grises",PROY);
+    printf("\n%s\t--espejar-horizontal",PROY);
+    printf("\n%s\t--espejar-vertical",PROY);
+    printf("\n%s\t--aumentar-contraste=X",PROY);
+    printf("\n%s\t--reducir-contraste=X",PROY);
+    printf("\n%s\t--tonalidad-azul=X",PROY);
+    printf("\n%s\t--tonalidad-verde=X",PROY);
+    printf("\n%s\t--tonalidad-roja=X",PROY);
+    printf("\n%s\t--recortar=X",PROY);
+    printf("\n%s\t--achicar=X",PROY);
+    printf("\n%s\t--rotar-derecha",PROY);
+    printf("\n%s\t--rotar-izquierda",PROY);
+    printf("\n%s\t--concatenar-horizontal",PROY);
+    printf("\n%s\t--concatenar-vertical",PROY);
+    printf("\nEJEMPLO: \n%s --rotar-derecha imagen1.bmp",PROY);
+
+
+    return;
+}
+
+void instValidarBMP(BMPHeader *header, DIBHeader *dheader)
+{
+    printf("\n\nValidando imagen.bmp...");
+    if(header->tipo != 0x4D42)
+    {
+        printf("\nSignature BMP invalido");
+        printf("\n%s",INVALIDO);
+        return;
+    }
+    else
+        printf("\nSignature BMP valido");
+
+    if(dheader->tamPunto != 24)
+    {
+        printf("\nProfundidad de %d bits, esperada 24 bits",dheader->tamPunto);
+        printf("\n%s",INVALIDO);
+        return;
+    }
+    else
+        printf("\nProfundidad de 24 bits correcta");
+    if(dheader->compresion != 0)
+    {
+        printf("\nCompresion: Comprimido, se necesita que no este comprimido");
+        printf("\n%s",INVALIDO);
+        return;
+    }
+    else
+        printf("\nCompresion: No comprimido");
+    if(header->tipo == 0x4D42 && dheader->tamPunto == 24 && dheader->compresion == 0)
+        printf("\n%s",VALIDO);
+
+    return;
+}
+
+bool validarImagen(const char* imagen)
+{
+    FILE *Img = fopen(imagen, "rb");
+    if (!Img)
+        {
+            printf("Error abriendo archivos\n");
+            return false;
+        }
+    BMPHeader header;
+    DIBHeader dib;
+    fread(&header, sizeof(BMPHeader), 1, Img);
+    fread(&dib, sizeof(DIBHeader), 1, Img);
+    if(header.tipo == 0x4D42 && dib.tamPunto == 24 && dib.compresion == 0 && dib.ancho >= 1 && dib.altura >=1)
+    {
+        fclose(Img);
+        return true;
+    }
+
+    else
+    {
+        fclose(Img);
+        return false;
+    }
+
+
+
+
+    return true;
 }
