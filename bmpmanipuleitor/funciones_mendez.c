@@ -2,7 +2,7 @@
 #include "funciones_mendez.h"
 
 #define GRUPO "MIEL"
-#define INTEGRANTE1 " DNI - APELLIDO, Nombre"
+#define INTEGRANTE1 " 44598222 - LUNA, Josue Martiniano"
 #define INTEGRANTE2 " 46749197 - MENDEZ, Pedro"
 #define PROY "bmpmanipuleitor.exe"
 #define VALIDO "ARCHIVO VALIDO - Listo para procesar"
