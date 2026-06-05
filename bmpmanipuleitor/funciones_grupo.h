@@ -111,9 +111,7 @@ void liberar_instrucciones(instrucciones* inst);
 
 int CargarInstrucciones(instrucciones* inst, const char* cadena);
 
-bool BuscarFiltro(const char* supuestofiltro);
-
-int BuscarFiltro1(const char* supuestofiltro);
+int BuscarFiltro(const char* supuestofiltro);
 
 bool BuscarUtilidad(const char* utilidad);
 

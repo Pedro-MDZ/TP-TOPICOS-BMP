@@ -49,28 +49,6 @@ void destruirMatriz(void** matriz, int filas)
 //FUNCIONES GRALES
 
 //Procesar Imagen Encapsulado
-/*
-int procesar_imagen(int argc, char* argv[])
-{
-    instrucciones inst;
-    inicializar_instrucciones(&inst);
-
-    for (int i = 1; i < argc; i++)
-        CargarInstrucciones(&inst, argv[i]);
-
-    for (int i = 0; i < inst.cant_filtros; i++)
-        ProcesarUtilidad(inst.imagenes[0], inst.filtros[i]);
-
-    if (validaCantImg(&inst))
-    {
-        for (int i = 0; i < inst.cant_filtros; i++)
-            ProcesarImagen(inst.imagenes[0], inst.imagenes[1], inst.filtros[i]);
-    }
-
-    liberar_instrucciones(&inst);
-    return EXITO;
-}
-*/
 int procesar_imagen(int argc, char* argv[])
 {
     instrucciones inst;
@@ -167,7 +145,7 @@ int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const 
     fseek(ImgOriginal, header.InicioImagen, SEEK_SET);
     LeerImagen(ImgOriginal, matriz, dib.ancho, dib.altura);
 
-    switch(BuscarFiltro1(filtro))
+    switch(BuscarFiltro(filtro))
     {
         case FILTRO_ESCALA_GRISES:
             EscalaGris(matriz, dib.altura, dib.ancho);
@@ -347,7 +325,7 @@ int agregar_imagen(instrucciones* inst, const char* imagen)
     if (inst->cant_imagenes >= 2)
     {
         printf("Error: No se pueden agregar mas de dos imagenes. La imagen %s no se agrego.\n", imagen);
-        return ERROR_ARGUMENTO;//NO SE SI ES ARCHIVO O ARGUMENTO
+        return ERROR_ARGUMENTO;
     }
     inst->imagenes[inst->cant_imagenes]=imagen;
     inst->cant_imagenes++;
@@ -446,13 +424,6 @@ int CargarInstrucciones(instrucciones* inst, const char* cadena)
         return EXITO;
     }
     //Si no esta en filtro y utilidad (q ya paso), error
-    //ACA NO SE SI AGREGAR FILTRO O UTILIDAD NO RECONOCIDA ASI NO LO CHEQUEAS EN EL PROCESAR UTILIDAD
-    /*if(!BuscarFiltro(filtro))
-    {
-        printf("Filtro '%s' no reconocido.\n", filtro);
-        return ERROR_ARGUMENTO;
-    }
-    */
     if(BuscarFiltro1(filtro) == SIN_FILTRO)
     {
         printf("Filtro '%s' no reconocido.\n", filtro);
@@ -484,53 +455,7 @@ int CargarInstrucciones(instrucciones* inst, const char* cadena)
     return EXITO;
 }
 
-bool BuscarFiltro(const char* filtro)
-{
-    if (strcmp(filtro, "escala-de-grises") == 0)
-        return true;
-    else if (strcmp(filtro, "negativo") == 0)
-        return true;
-    else if (strcmp(filtro, "espejar-horizontal") == 0)
-        return true;
-    else if (strcmp(filtro, "espejar-vertical") == 0)
-        return true;
-    else if (strcmp(filtro, "aumentar-contraste") == 0)
-        return true;
-    else if (strcmp(filtro, "reducir-contraste") == 0)
-        return true;
-    else if (strcmp(filtro, "tonalidad-azul") == 0)
-        return true;
-    else if (strcmp(filtro, "tonalidad-verde") == 0)
-        return true;
-    else if (strcmp(filtro, "tonalidad-roja") == 0)
-        return true;
-    else if (strcmp(filtro, "recortar") == 0)
-        return true;
-    else if (strcmp(filtro, "achicar") == 0)
-        return true;
-    else if (strcmp(filtro, "rotar-derecha") == 0)
-        return true;
-    else if (strcmp(filtro, "rotar-izquierda") == 0)
-        return true;
-    else if(strcmp(filtro,"concatenar-horizontal")==0)
-        return true;
-    else if(strcmp(filtro,"concatenar-vertical")==0)
-        return true;
-    else if(strcmp(filtro,"comodin1")==0)
-        return true;
-    else if (strcmp(filtro, "comodin2") == 0)
-        return true;
-    else if(strcmp(filtro,"info")==0)
-        return true;
-    else if(strcmp(filtro, "help") == 0)
-        return true;
-    else if(strcmp(filtro, "validar") == 0)
-        return true;
-    else
-        return false;
-}
-
-int BuscarFiltro1(const char* filtro)
+int BuscarFiltro(const char* filtro)
 {
     if (strcmp(filtro, "escala-de-grises") == 0)
         return FILTRO_ESCALA_GRISES;
