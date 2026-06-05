@@ -68,11 +68,16 @@ typedef struct {
 typedef struct{
     const char* imagenes[2];
     const char** filtros;
+    const char** utilidades;
     size_t cant_imagenes;
     size_t cant_filtros;
+    size_t cant_utilidades;
+    int verbose;
 }instrucciones;
 
 int procesar_imagen(int argc, char* argv[]);
+
+void ProcesarUtilidad(const char* archivoEntrada,const char* utilidad);
 
 int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2, const char* filtro);
 
@@ -86,21 +91,25 @@ void EscribirImagen(FILE* archivo, Pixel** matriz, int ancho, int alto);
 
 void inicializar_instrucciones(instrucciones* inst);
 
-void agregar_imagen(instrucciones* inst, const char* imagen);
+int agregar_imagen(instrucciones* inst, const char* imagen);
 
-void agregar_filtro(instrucciones* inst, const char* filtro);
+int agregar_filtro(instrucciones* inst, const char* filtro);
+
+int agregar_utilidad(instrucciones* inst, const char* utilidad)
 
 void liberar_instrucciones(instrucciones* inst);
 
-void CargarInstrucciones(instrucciones* inst, const char* cadena);
+int CargarInstrucciones(instrucciones* inst, const char* cadena);
 
 bool BuscarFiltro(const char* supuestofiltro);
 
+bool BuscarUtilidad(const char* utilidad);
+
 bool validaCantImg(instrucciones *inst);
 
-void ProcesarUtilidad(const char* archivoEntrada,const char* utilidad);
 
-bool BuscarUtilidad(const char* utilidad);
+
+
 
 #endif // FUNCIONES_GRUPO_H
 

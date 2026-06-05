@@ -69,7 +69,7 @@ int procesar_imagen(int argc, char* argv[])
     }
 
     liberar_instrucciones(&inst);
-    return 0;
+    return EXITO;
 }
 
 //Crear imagen por filtro
@@ -93,13 +93,21 @@ int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const 
         filtro=copia;
     }
 
-    //FUNCION BUSQUEDA DE FILTROS
-    if(!BuscarFiltro(filtro))
-    {
-        printf("Filtro '%s' no reconocido.\n", filtro);
-        return ERROR_ARGUMENTO;
-    }
     
+    
+    else if(strcmp(filtro,"info")==0)
+    {
+        fclose(ImgOriginal);
+        destruirMatriz((void**)matriz, dib.altura);
+        return;
+    }
+    else if(strcmp(filtro,"help")==0)
+    {
+        fclose(ImgOriginal);
+        destruirMatriz((void**)matriz, dib.altura);
+        return;
+    }
+
     char archivoSalida[145];
     char nombreEntrada[100];
     strcpy(nombreEntrada, archivoEntrada);
@@ -164,18 +172,7 @@ int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const 
         ConcatenarHorizontal(&matriz, &dib.altura, &dib.ancho,archivoEntrada2);
     else if(strcmp(filtro,"concatenar-vertical")==0 && archivoEntrada2!= NULL)
         ConcatenarVertical(&matriz, &dib.altura, &dib.ancho,archivoEntrada2);
-    else if(strcmp(filtro,"info")==0)
-    {
-        fclose(ImgOriginal);
-        destruirMatriz((void**)matriz, dib.altura);
-        return;
-    }
-    else if(strcmp(filtro,"help")==0)
-    {
-        fclose(ImgOriginal);
-        destruirMatriz((void**)matriz, dib.altura);
-        return;
-    }
+    
 
 
 
@@ -280,20 +277,23 @@ void inicializar_instrucciones(instrucciones* inst)
     inst->imagenes[0] = NULL;
     inst->imagenes[1] = NULL;
     inst->filtros = NULL;
+    inst->utilidades = NULL;
     inst->cant_imagenes = 0;
     inst->cant_filtros = 0;
+    inst->cant_utilidades = 0;
+    inst->verbose = 0;
 }
 
-void agregar_imagen(instrucciones* inst, const char* imagen)
+int agregar_imagen(instrucciones* inst, const char* imagen)
 {
     if (inst->cant_imagenes >= 2)
     {
         printf("Error: No se pueden agregar mas de dos imagenes. La imagen %s no se agrego.\n", imagen);
-        return;
+        return ERROR_ARGUMENTO;
     }
     inst->imagenes[inst->cant_imagenes]=imagen;
     inst->cant_imagenes++;
-    return ;
+    return EXITO;
 }
 
 int agregar_filtro(instrucciones* inst, const char* filtro)
@@ -307,14 +307,25 @@ int agregar_filtro(instrucciones* inst, const char* filtro)
     return EXITO;
 }
 
+int agregar_utilidad(instrucciones* inst, const char* utilidad)
+{
+    const char** nuevas_utilidades = realloc(inst->utilidades, (inst->cant_utilidades + 1) * sizeof(char*));
+    if (!nuevas_utilidades) return ERROR_MEMORIA;
+
+    inst->utilidades = nuevas_utilidades;
+    inst->utilidades[inst->cant_utilidades] = utilidad;
+    inst->cant_utilidades++;
+    return EXITO;
+}
+
 void liberar_instrucciones(instrucciones* inst)
 {
     free(inst->filtros);
+    free(inst->utilidades);
 }
 
 int CargarInstrucciones(instrucciones* inst, const char* cadena)
 {
-    int fin= inst->cant_filtros;
     char copia[40];
     char copia2[40];
     char* filtro = NULL;
@@ -322,51 +333,72 @@ int CargarInstrucciones(instrucciones* inst, const char* cadena)
     char* valorFiltro = NULL;
     float porcentaje = 0;
     strcpy(copia,cadena);
+
+    //Es imagen
+    if(strncmp(cadena, "--", 2) != 0)
+    {
+        agregar_imagen(inst,cadena);
+        return EXITO;
+    }
+    //Flag verbose
+    if(strcmp(cadena, "--verbose") == 0)
+    {
+        inst->verbose = 1;
+        return EXITO;
+    }
+    //Separo el filtro del igual si tiene
     if (strchr(copia, '='))
     {
-        filtro= strtok(copia, "=");
-        valorFiltro=strtok(NULL, "=");//valor de filtro
+        filtro= strtok(copia, "=") + 2;
+        valorFiltro=strtok(NULL, "=");
         porcentaje = atoi(valorFiltro);
         if(porcentaje <= 0 || porcentaje > 100)
         {
             printf("Error: El porcentaje debe estar entre 1 y 100. Filtro no agregado: %s\n", cadena);
             return ERROR_ARGUMENTO;
         }
-    }
+    }//Sino solo el filtro
     else
+        filtro=copia + 2;
+
+    //Es utilidad 
+    if(BuscarUtilidad(filtro))
     {
-        filtro=copia;
+        agregar_utilidad(inst,filtro);
+        return EXITO;
     }
-    if (strncmp(cadena, "--", 2) == 0)
+    //Si no esta en filtro y utilidad (q ya paso), error
+    //ACA NO SE SI AGREGAR FILTRO O UTILIDAD NO RECONOCIDA ASI NO LO CHEQUEAS EN EL PROCESAR UTILIDAD
+    if(!BuscarFiltro(filtro))
     {
-        int repetido = 0; // bandera de si hay repetido de ese filtro
-        for (int i = 0; i < fin; i++)
+        printf("Filtro '%s' no reconocido.\n", filtro);
+        return ERROR_ARGUMENTO;
+    }
+
+    //Verifico que no este repetido
+    int fin = inst->cant_filtros;
+    int repetido = 0; // bandera de si hay repetido de ese filtro
+    int i = 0;
+    while(i<fin && !repetido)
+    {
+        strcpy(copia2,inst->filtros[i]);
+        if (strchr(copia2, '='))
+            filtro2= strtok(copia2, "=");
+        else
+            filtro2=copia2;
+
+        if (strcmp(filtro2, filtro) == 0)
         {
-            strcpy(copia2,inst->filtros[i]);
-            if (strchr(copia2, '='))
-            {
-                filtro2= strtok(copia2, "=");
-            }
-            else
-            {
-                filtro2=copia2;
-            }
-            if (strcmp(filtro2, filtro + 2) == 0)
-            {
-                printf("Error filtro: %s repetido\n",cadena);
-                repetido = 1; // encuentra un repetido y cambia bandera
-                break;
-            }
+            printf("Error filtro: %s repetido.\n",cadena);
+            repetido = 1; // encuentra un repetido y cambia bandera
         }
-        if (!repetido) //si no esta repetido lo hace al filtro cuando lo lee
-        {
-            agregar_filtro(&(*inst),cadena + 2);
-        }
+        i++;
     }
-    else
-    {
-        agregar_imagen(&(*inst),cadena);
-    }
+        
+    if(!repetido)
+        agregar_filtro(inst,filtro);
+
+    return EXITO;
 }
 
 bool BuscarFiltro(const char* filtro)
@@ -413,6 +445,18 @@ bool BuscarFiltro(const char* filtro)
         return false;
 }
 
+bool BuscarUtilidad(const char* utilidad)
+{
+    if (strcmp(utilidad, "info") == 0)
+        return true;
+    if (strcmp(utilidad, "help") == 0)
+        return true;
+    if (strcmp(utilidad, "validar") == 0)
+        return true;
+    else
+        return false;
+}
+
 bool validaCantImg(instrucciones *inst)
 {
     if(inst->cant_imagenes == 0)
@@ -422,16 +466,3 @@ bool validaCantImg(instrucciones *inst)
     }
         return true;
 }
-
-bool BuscarUtilidad(const char* utilidad)
-{
-    if (strcmp(utilidad, "info") == 0)
-        return true;
-    if (strcmp(utilidad, "help") == 0)
-        return true;
-    else
-        return false;
-}
-
-
-
