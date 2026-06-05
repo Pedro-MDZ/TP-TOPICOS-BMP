@@ -229,8 +229,14 @@ int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const 
         return r;
     }
     // Guardamos
+    char nombreFiltro[40];
+    strcpy(nombreFiltro, filtroEntrante);
+    char* igual = strchr(nombreFiltro, '=');
+    if (igual)
+        *igual = '-';
+
     char archivoSalida[145];
-    snprintf(archivoSalida, sizeof(archivoSalida), "MIEL_%s_%s", filtro, archivoEntrada);
+    snprintf(archivoSalida, sizeof(archivoSalida), "MIEL_%s_%s", nombreFiltro, archivoEntrada);
     FILE *ImgNueva = fopen(archivoSalida, "wb");
     if (!ImgNueva)
     {
