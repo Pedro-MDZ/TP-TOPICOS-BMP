@@ -3,15 +3,9 @@
 #include <string.h>
 #include "funciones_grupo.h"
 
-#define GRUPO "MIEL"
-#define INTEGRANTE1 " DNI - APELLIDO, Nombre"
-#define INTEGRANTE2 " DNI - APELLIDO, Nombre"
-#define INTEGRANTE3 " DNI - APELLIDO, Nombre"
-#define PROY "bmpmanipuleitor.exe"
-
-
 int main(int argc, char* argv[])
 {
+/*<<<<<<< HEAD
     instrucciones inst;
     inicializar_instrucciones(&inst);
     for(int i=1; i<argc;i++)
@@ -25,4 +19,8 @@ int main(int argc, char* argv[])
     }
     liberar_instrucciones(&inst);
     return 0;
+=======*/
+    // Procesar los argumentos y aplicar filtros
+    return procesar_imagen(argc, argv);
+//>>>>>>> f2aab2a4875a0c92088026a025c0a0a29471f2be
 }

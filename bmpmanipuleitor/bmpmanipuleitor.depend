@@ -38,7 +38,7 @@
 	"funciones_grupo.h"
 	"funciones_alvarezorozco.h"
 
-1780671589 c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_grupo.h
+1780680037 c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_grupo.h
 	<stdio.h>
 	<ctype.h>
 	<stdlib.h>
@@ -48,60 +48,60 @@
 1780190051 c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_alvarezorozco.h
 	"funciones_grupo.h"
 
-1780670487 source:c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_grupo.c
+1780689269 source:c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_grupo.c
 	"funciones_grupo.h"
 	"funciones_luna.h"
 	"funciones_mendez.h"
 
-1780610656 c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_luna.h
+1780680237 c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_luna.h
 	"funciones_grupo.h"
 
-1780610789 source:c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_luna.c
+1780681232 source:c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_luna.c
 	"funciones_grupo.h"
 	"funciones_luna.h"
 
-1780671589 source:c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\main.c
+1780680184 source:c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	"funciones_grupo.h"
 
-1780601015 source:/home/josue/Documentos/Git/TP-TOPICOS-BMP/bmpmanipuleitor/funciones_alvarezorozco.c
+1780670983 source:/home/josue/Documentos/Git/TP-TOPICOS-BMP/bmpmanipuleitor/funciones_alvarezorozco.c
 	"funciones_grupo.h"
 	"funciones_alvarezorozco.h"
 
-1780601015 /home/josue/Documentos/Git/TP-TOPICOS-BMP/bmpmanipuleitor/funciones_grupo.h
+1780670983 /home/josue/Documentos/Git/TP-TOPICOS-BMP/bmpmanipuleitor/funciones_grupo.h
 	<stdio.h>
 	<ctype.h>
 	<stdlib.h>
 	<string.h>
 	<stdbool.h>
 
-1780601015 /home/josue/Documentos/Git/TP-TOPICOS-BMP/bmpmanipuleitor/funciones_alvarezorozco.h
+1780670983 /home/josue/Documentos/Git/TP-TOPICOS-BMP/bmpmanipuleitor/funciones_alvarezorozco.h
 	"funciones_grupo.h"
 
-1780603431 source:/home/josue/Documentos/Git/TP-TOPICOS-BMP/bmpmanipuleitor/funciones_grupo.c
+1780671530 source:/home/josue/Documentos/Git/TP-TOPICOS-BMP/bmpmanipuleitor/funciones_grupo.c
 	"funciones_grupo.h"
 	"funciones_luna.h"
 	"funciones_alvarezorozco.h"
 
-1780603284 /home/josue/Documentos/Git/TP-TOPICOS-BMP/bmpmanipuleitor/funciones_luna.h
+1780670983 /home/josue/Documentos/Git/TP-TOPICOS-BMP/bmpmanipuleitor/funciones_luna.h
 	"funciones_grupo.h"
 
-1780603438 source:/home/josue/Documentos/Git/TP-TOPICOS-BMP/bmpmanipuleitor/funciones_luna.c
+1780670983 source:/home/josue/Documentos/Git/TP-TOPICOS-BMP/bmpmanipuleitor/funciones_luna.c
 	"funciones_grupo.h"
 	"funciones_luna.h"
 
-1780601015 source:/home/josue/Documentos/Git/TP-TOPICOS-BMP/bmpmanipuleitor/main.c
+1780670983 source:/home/josue/Documentos/Git/TP-TOPICOS-BMP/bmpmanipuleitor/main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	"funciones_grupo.h"
 
-1780617468 c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_mendez.h
+1780686786 c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_mendez.h
 	"funciones_grupo.h"
 
-1780668601 source:c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_mendez.c
+1780686842 source:c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_mendez.c
 	"funciones_grupo.h"
 	"funciones_mendez.h"
 

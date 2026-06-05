@@ -131,8 +131,8 @@ void Recortar(Pixel*** matriz, int *filas, int *columnas, float porcentaje)
     int nuevasColumnas = (*columnas) * porcentaje;
 
 
-    int margenSuperior = (*filas - nuevasFilas) / 2;
-    int margenIzquierdo = (*columnas - nuevasColumnas) / 2;
+    int margenSuperior = 0;
+    int margenIzquierdo = 0;
 
     Pixel** nuevaMatriz = (Pixel**)crearMatriz(sizeof(Pixel), nuevasFilas, nuevasColumnas);
 
@@ -348,9 +348,9 @@ void ConcatenarHorizontal(Pixel*** matriz1, int* filas1, int* columnas1,const ch
     *columnas1 = nuevasColumnas;
 }
 
-void instInfo(BMPHeader *header, DIBHeader *dheader,char *nombreImagen)
+void instInfo(BMPHeader *header, DIBHeader *dheader,const char *nombreImagen)
 {
-    unsigned int padding = (4 - (dheader->ancho * BYTES_POR_PIXEL) % 4);
+    unsigned int padding = ((dheader->ancho * BYTES_POR_PIXEL) % 4);
     printf("\nArchivo: %s",nombreImagen);
     printf("\nTamanio del archivo: %d bytes",header->tamArch);
     printf("\nDimensiones: %d x %d",dheader->ancho,dheader->altura);
@@ -381,6 +381,9 @@ void instHelp(void)
     printf("\n%s\t--concatenar-horizontal",PROY);
     printf("\n%s\t--concatenar-vertical",PROY);
     printf("\nEJEMPLO: \n%s --rotar-derecha imagen1.bmp",PROY);
+    printf("\nFILTRO: --comodin1=X Crea un patron de los 3 colores primarios en diagonal con X como intensidad");
+    printf("\nFILTRO: --comodin2=X Pixelea la imagen con bloques tomando un promedio de los colores por bloque, con X se decide el tam de bloque");
+    printf("\nFILTRO: --comodin3=X Crea un patron de los 3 colores primarios en diagonal con el ancho de X para las columnas");
 
 
     return;
@@ -437,15 +440,63 @@ bool validarImagen(const char* imagen)
         fclose(Img);
         return true;
     }
-
     else
     {
         fclose(Img);
         return false;
     }
+}
 
+bool validarBMP(const char* imagen)
+{
+    FILE *Img = fopen(imagen, "rb");
+    if (!Img)
+        {
+            printf("\nError abriendo archivos");
+            return false;
+        }
+    BMPHeader header;
+    fread(&header, sizeof(BMPHeader), 1, Img);
+    if(header.tipo == 0x4D42)
+    {
+        fclose(Img);
+        return true;
+    }
+    else
+    {
+        fclose(Img);
+        return false;
+    }
+}
 
+int verboseAct(instrucciones* inst)
+{
+    return inst->verbose;
+}
 
+void mostrarArgumentos(int argc,char* argv[])
+{
+    for(int i=1;i<argc;i++)
+    {
+        printf("%s\t",*(argv+i));
+    }
+    return;
+}
 
-    return true;
+void mostrarInstrucciones(instrucciones* inst)
+{
+    for(int i=0;i<inst->cant_imagenes;i++)
+    {
+        printf("%s\t",*((inst->imagenes)+i));
+    }
+    for(int i=0;i<inst->cant_filtros;i++)
+    {
+        printf("--%s\t",*((inst->filtros)+i));
+    }
+    for(int i=0;i<inst->cant_utilidades;i++)
+    {
+        printf("--%s\t",*((inst->utilidades)+i));
+    }
+
+    return;
 }
