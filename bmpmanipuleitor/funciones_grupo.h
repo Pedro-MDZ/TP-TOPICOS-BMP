@@ -30,6 +30,7 @@ Entrega: No
 #define ERROR_MEMORIA 3
 #define ERROR_FORMATO 4
 
+#define SIN_FILTRO -1
 #define FILTRO_ESCALA_GRISES 10
 #define FILTRO_NEGATIVO 11
 #define FILTRO_ESPEJAR_H 12
