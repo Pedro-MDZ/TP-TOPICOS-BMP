@@ -450,7 +450,7 @@ int CargarInstrucciones(instrucciones* inst, const char* cadena)
     }
 
     if(!repetido)
-        agregar_filtro(inst,filtro);
+        agregar_filtro(inst,cadena + 2);
 
     return EXITO;
 }
