@@ -1,5 +1,5 @@
-#ifndef FUNCIONES_ALVAREZOROZCO_H
-#define FUNCIONES_ALVAREZOROZCO_H
+#ifndef FUNCIONES_MENDEZ_H
+#define FUNCIONES_MENDEZ_H
 
 #include "funciones_grupo.h"
 
@@ -23,4 +23,4 @@ int verboseAct(instrucciones* inst);
 void mostrarArgumentos(int argc,char* argv[]);
 void mostrarInstrucciones(instrucciones* inst);
 
-#endif // FUNCIONES_ALVAREZOROZCO_H
+#endif // FUNCIONES_MENDEZ_H

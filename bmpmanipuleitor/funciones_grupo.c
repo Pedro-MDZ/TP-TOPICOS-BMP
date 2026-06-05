@@ -167,44 +167,6 @@ int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const 
     fseek(ImgOriginal, header.InicioImagen, SEEK_SET);
     LeerImagen(ImgOriginal, matriz, dib.ancho, dib.altura);
 
-
-
-    /*
-    if (strcmp(filtro, "escala-de-grises") == 0)
-        EscalaGris(matriz, dib.altura, dib.ancho);
-    else if (strcmp(filtro, "negativo") == 0)
-        InvertirColores(matriz, dib.altura, dib.ancho);
-    else if (strcmp(filtro, "espejar-horizontal") == 0)
-        EspejarHorizontal(&matriz, &dib.altura, &dib.ancho);
-    else if (strcmp(filtro, "espejar-vertical") == 0)
-        EspejarVertical(&matriz, &dib.altura, &dib.ancho);
-    else if (strcmp(filtro, "aumentar-contraste") == 0)
-        AumentoContraste(matriz, dib.altura, dib.ancho, porcentaje);
-    else if (strcmp(filtro, "reducir-contraste") == 0)
-        ReduccionContraste(matriz, dib.altura, dib.ancho, porcentaje);
-    else if (strcmp(filtro, "tonalidad-azul") == 0)
-        FiltroAzulMatriz(matriz, dib.altura, dib.ancho, porcentaje);
-    else if (strcmp(filtro, "tonalidad-verde") == 0)
-        FiltroVerdeMatriz(matriz, dib.altura, dib.ancho, porcentaje);
-    else if (strcmp(filtro, "tonalidad-roja") == 0)
-        FiltroRojoMatriz(matriz, dib.altura, dib.ancho, porcentaje);
-    else if (strcmp(filtro, "recortar") == 0)
-        Recortar(&matriz, &dib.altura, &dib.ancho, porcentaje);
-    else if (strcmp(filtro, "achicar") == 0)
-        AchicarImagen(&matriz, &dib.altura, &dib.ancho, porcentaje);
-    else if (strcmp(filtro, "rotar-derecha") == 0)
-        RotarDerecha(&matriz, &dib.altura, &dib.ancho);
-    else if (strcmp(filtro, "rotar-izquierda") == 0)
-        RotarIzquierda(&matriz, &dib.altura, &dib.ancho);
-    else if(strcmp(filtro,"comodin1")==0)
-        Cebratricolor(matriz, dib.altura, dib.ancho, porcentaje);
-    else if (strcmp(filtro, "comodin2") == 0)
-        Pixelado(matriz, dib.altura, dib.ancho, porcentaje);
-    else if(strcmp(filtro,"concatenar-horizontal")==0 && archivoEntrada2 != NULL)
-        ConcatenarHorizontal(&matriz, &dib.altura, &dib.ancho,archivoEntrada2);
-    else if(strcmp(filtro,"concatenar-vertical")==0 && archivoEntrada2!= NULL)
-        ConcatenarVertical(&matriz, &dib.altura, &dib.ancho,archivoEntrada2);
-    */
     switch(BuscarFiltro1(filtro))
     {
         case FILTRO_ESCALA_GRISES:

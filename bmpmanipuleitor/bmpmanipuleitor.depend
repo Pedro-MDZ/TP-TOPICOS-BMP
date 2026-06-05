@@ -48,7 +48,7 @@
 1780190051 c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_alvarezorozco.h
 	"funciones_grupo.h"
 
-1780689269 source:c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_grupo.c
+1780691852 source:c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_grupo.c
 	"funciones_grupo.h"
 	"funciones_luna.h"
 	"funciones_mendez.h"
@@ -60,7 +60,7 @@
 	"funciones_grupo.h"
 	"funciones_luna.h"
 
-1780680184 source:c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\main.c
+1780691852 source:c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -98,7 +98,7 @@
 	<string.h>
 	"funciones_grupo.h"
 
-1780686786 c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_mendez.h
+1780691947 c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_mendez.h
 	"funciones_grupo.h"
 
 1780686842 source:c:\users\walte\desktop\topicos de programación\tp_miel\bmpmanipuleitor\funciones_mendez.c

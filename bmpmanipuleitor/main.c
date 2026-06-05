@@ -22,5 +22,4 @@ int main(int argc, char* argv[])
 =======*/
     // Procesar los argumentos y aplicar filtros
     return procesar_imagen(argc, argv);
-//>>>>>>> f2aab2a4875a0c92088026a025c0a0a29471f2be
 }
