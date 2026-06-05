@@ -1,11 +1,15 @@
 /*
 Apellido: Luna, Josue Martiniano
 DNI: 44598222
-Entrega: Sí
+Entrega: Si
 
 Apellido: Mendez Mamani, Pedro
 DNI: 46749197
-Entrega: Sí
+Entrega: Si
+
+Apellido: Basso, Tiziano Axel
+DNI: 43916389
+Entrega: No
 
 */
 
