@@ -49,12 +49,6 @@ Entrega: No
 #define FILTRO_CONCATENAR_H 25
 #define FILTRO_CONCATENAR_V 26
 
-0: Éxito
-• 1: Error de argumentos
-• 2: Error de archivo (no encontrado, sin permisos)
-• 3: Error de memoria (por ejemplo, malloc falló)
-• 4: Formato BMP inválido
-
 typedef struct {
     unsigned short tipo;
     unsigned int tamArch;
@@ -114,13 +108,15 @@ int agregar_imagen(instrucciones* inst, const char* imagen);
 
 int agregar_filtro(instrucciones* inst, const char* filtro);
 
-int agregar_utilidad(instrucciones* inst, const char* utilidad)
+int agregar_utilidad(instrucciones* inst, const char* utilidad);
 
 void liberar_instrucciones(instrucciones* inst);
 
 int CargarInstrucciones(instrucciones* inst, const char* cadena);
 
 bool BuscarFiltro(const char* supuestofiltro);
+
+int BuscarFiltro1(const char* supuestofiltro);
 
 bool BuscarUtilidad(const char* utilidad);
 

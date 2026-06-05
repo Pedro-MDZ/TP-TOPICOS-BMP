@@ -50,7 +50,7 @@ void destruirMatriz(void** matriz, int filas)
 //FUNCIONES GRALES
 
 //Procesar Imagen Encapsulado
-
+/*
 int procesar_imagen(int argc, char* argv[])
 {
     instrucciones inst;
@@ -66,6 +66,42 @@ int procesar_imagen(int argc, char* argv[])
     {
         for (int i = 0; i < inst.cant_filtros; i++)
             ProcesarImagen(inst.imagenes[0], inst.imagenes[1], inst.filtros[i]);
+    }
+
+    liberar_instrucciones(&inst);
+    return EXITO;
+}
+*/
+int procesar_imagen(int argc, char* argv[])
+{
+    instrucciones inst;
+    inicializar_instrucciones(&inst);
+
+    for (int i = 1; i < argc; i++)
+        CargarInstrucciones(&inst, argv[i]);
+
+    for (int i = 0; i < inst.cant_utilidades; i++)
+        ProcesarUtilidad(inst.imagenes[0], inst.utilidades[i]);
+
+    if (validaCantImg(&inst))
+    {
+        int resultado = EXITO;
+        int i = 0;
+        while (i < inst.cant_filtros && resultado == EXITO)
+        {
+            if ((strcmp(inst.filtros[i], "concatenar-horizontal") == 0 || 
+             strcmp(inst.filtros[i], "concatenar-vertical") == 0) 
+             && inst.cant_imagenes < 2)
+            {
+                printf("Error: '%s' requiere dos imagenes.\n", inst.filtros[i]);
+                i++;
+                continue;
+            }
+            resultado = ProcesarImagen(inst.imagenes[0], inst.imagenes[1], inst.filtros[i]);
+            i++;
+        }
+        liberar_instrucciones(&inst);
+        return resultado;
     }
 
     liberar_instrucciones(&inst);
@@ -220,7 +256,7 @@ int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const 
             strcpy(nombreEntrada2, archivoEntrada2);
             ConcatenarVertical(&matriz, &dib.altura, &dib.ancho, nombreEntrada2);
             break;
-        }
+        }//ESTE DEFAULT NO DEBERIA PASAR PERO POR SI ACASO
         default:
             printf("Filtro no reconocido.\n");
             destruirMatriz((void**)matriz, dib.altura);

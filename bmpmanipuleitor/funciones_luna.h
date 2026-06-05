@@ -3,11 +3,6 @@
 
 #include "funciones_grupo.h"
 
-
-
-#endif // FUNCIONES_LUNA_H
-
-
 void FiltroVerdeMatriz(Pixel** matriz, int filas, int columnas, float porcentaje);
 void FiltroAzulMatriz(Pixel** matriz, int filas, int columnas, float porcentaje);
 void FiltroRojoMatriz(Pixel** matriz, int filas, int columnas, float porcentaje);
@@ -22,3 +17,5 @@ void instInfo(BMPHeader *header, DIBHeader *dheader,char *nombreImagen);
 void instHelp(void);
 
 void Pixelado(Pixel** matriz, int filas, int columnas, float porcentaje);
+
+#endif // FUNCIONES_LUNA_H
