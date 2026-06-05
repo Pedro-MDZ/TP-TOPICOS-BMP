@@ -22,10 +22,19 @@ Entrega: No
 
 #pragma pack(1)
 
-#define TODO_OK 0
 #define BYTES_POR_PIXEL 3
 
+#define EXITO 0
+#define ERROR_ARGUMENTO 1
+#define ERROR_ARCHIVO 2
+#define ERROR_MEMORIA 3
+#define ERROR_FORMATO 4
 
+0: Éxito
+• 1: Error de argumentos
+• 2: Error de archivo (no encontrado, sin permisos)
+• 3: Error de memoria (por ejemplo, malloc falló)
+• 4: Formato BMP inválido
 
 typedef struct {
     unsigned short tipo;
@@ -65,7 +74,7 @@ typedef struct{
 
 int procesar_imagen(int argc, char* argv[]);
 
-void ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2, const char* filtro);
+int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2, const char* filtro);
 
 void** crearMatriz(size_t tamElem, int filas, int columnas);
 
