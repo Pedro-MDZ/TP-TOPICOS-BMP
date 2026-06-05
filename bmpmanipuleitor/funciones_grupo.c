@@ -76,7 +76,7 @@ int procesar_imagen(int argc, char* argv[])
 
 int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const char* filtroEntrante)
 {
-    //si tiene un porcentaje dividirlo el filtroEntrante para concerlo
+    //Si tiene un porcentaje dividirlo el filtroEntrante para conocerlo
     char copia[40];
     char* filtro = NULL;
     char* valorFiltro = NULL;
@@ -92,25 +92,11 @@ int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const 
     {
         filtro=copia;
     }
-
-    
-    
-    else if(strcmp(filtro,"info")==0)
+    if(archivoEntrada2==NULL && (strcmp(filtro,"concatenar-horizontal")==0||strcmp(filtro,"concatenar-vertical")==0))
     {
-        fclose(ImgOriginal);
-        destruirMatriz((void**)matriz, dib.altura);
-        return;
+        printf("Error: Filtro '%s' requiere un segundo archivo de entrada.\n", filtro);
+        return ERROR_ARCHIVO;// NO SE SI ES DE ARCHIVO O ARGUMENTO
     }
-    else if(strcmp(filtro,"help")==0)
-    {
-        fclose(ImgOriginal);
-        destruirMatriz((void**)matriz, dib.altura);
-        return;
-    }
-
-    char archivoSalida[145];
-    char nombreEntrada[100];
-    strcpy(nombreEntrada, archivoEntrada);
 
     FILE *ImgOriginal = fopen(archivoEntrada, "rb");
 
@@ -138,6 +124,7 @@ int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const 
     fseek(ImgOriginal, header.InicioImagen, SEEK_SET);
     LeerImagen(ImgOriginal, matriz, dib.ancho, dib.altura);
 
+    /*
     if (strcmp(filtro, "escala-de-grises") == 0)
         EscalaGris(matriz, dib.altura, dib.ancho);
     else if (strcmp(filtro, "negativo") == 0)
@@ -172,41 +159,96 @@ int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const 
         ConcatenarHorizontal(&matriz, &dib.altura, &dib.ancho,archivoEntrada2);
     else if(strcmp(filtro,"concatenar-vertical")==0 && archivoEntrada2!= NULL)
         ConcatenarVertical(&matriz, &dib.altura, &dib.ancho,archivoEntrada2);
-    
-
-
-
-
-    // Guardamos
-    if(archivoEntrada2==NULL && (strcmp(filtro,"concatenar-horizontal")==0||strcmp(filtro,"concatenar-vertical")==0))
+    */
+    switch(BuscarFiltro1(filtro))
     {
-        printf("Error: Filtro '%s' requiere un segundo archivo de entrada.\n", filtro);
-        fclose(ImgOriginal);
-        destruirMatriz((void**)matriz, dib.altura);
-        return;
-    }
-    else
-    {
-        snprintf(archivoSalida, sizeof(archivoSalida), "MIEL_%s_%s", filtro, nombreEntrada);
-        FILE *ImgNueva = fopen(archivoSalida, "wb");
-        if (!ImgNueva)
+        case FILTRO_ESCALA_GRISES:
+            EscalaGris(matriz, dib.altura, dib.ancho);
+            break;
+        case FILTRO_NEGATIVO:
+            InvertirColores(matriz, dib.altura, dib.ancho);
+            break;
+        case FILTRO_ESPEJAR_H:
+            EspejarHorizontal(&matriz, &dib.altura, &dib.ancho);
+            break;
+        case FILTRO_ESPEJAR_V:
+            EspejarVertical(&matriz, &dib.altura, &dib.ancho);
+            break;
+        case FILTRO_AUMENTAR_CONTRASTE:
+            AumentoContraste(matriz, dib.altura, dib.ancho, porcentaje);
+            break;
+        case FILTRO_REDUCIR_CONTRASTE:
+            ReduccionContraste(matriz, dib.altura, dib.ancho, porcentaje);
+            break;
+        case FILTRO_TONALIDAD_AZUL:
+            FiltroAzulMatriz(matriz, dib.altura, dib.ancho, porcentaje);
+            break;
+        case FILTRO_TONALIDAD_VERDE:
+            FiltroVerdeMatriz(matriz, dib.altura, dib.ancho, porcentaje);
+            break;
+        case FILTRO_TONALIDAD_ROJA:
+            FiltroRojoMatriz(matriz, dib.altura, dib.ancho, porcentaje);
+            break;
+        case FILTRO_RECORTAR:
+            Recortar(&matriz, &dib.altura, &dib.ancho, porcentaje);
+            break;
+        case FILTRO_ACHICAR:
+            AchicarImagen(&matriz, &dib.altura, &dib.ancho, porcentaje);
+            break;
+        case FILTRO_ROTAR_DERECHA:
+            RotarDerecha(&matriz, &dib.altura, &dib.ancho);
+            break;
+        case FILTRO_ROTAR_IZQUIERDA:
+            RotarIzquierda(&matriz, &dib.altura, &dib.ancho);
+            break;
+        case FILTRO_COMODIN1:
+            Cebratricolor(matriz, dib.altura, dib.ancho, porcentaje);
+            break;
+        case FILTRO_COMODIN2:
+            Pixelado(matriz, dib.altura, dib.ancho, porcentaje);
+            break;
+        case FILTRO_CONCATENAR_H:
         {
-            printf("Error abriendo archivos\n");
-            fclose(ImgOriginal);
-            destruirMatriz((void**)matriz, dib.altura);
-            return;
+            char nombreEntrada2[100];
+            strcpy(nombreEntrada2, archivoEntrada2);
+            ConcatenarHorizontal(&matriz, &dib.altura, &dib.ancho, nombreEntrada2);
+            break;
         }
-        fwrite(&header, sizeof(BMPHeader), 1, ImgNueva);
-        fwrite(&dib, sizeof(DIBHeader), 1, ImgNueva);
-        fseek(ImgNueva, header.InicioImagen, SEEK_SET);
-        EscribirImagen(ImgNueva, matriz, dib.ancho, dib.altura);
-
-        destruirMatriz((void**)matriz, dib.altura);
-        fclose(ImgNueva);
-        fclose(ImgOriginal);
-
-        printf("\nFiltro '%s' aplicado. Imagen guardada como: %s\n", filtro, archivoSalida);
+        case FILTRO_CONCATENAR_V:
+        {
+            char nombreEntrada2[100];
+            strcpy(nombreEntrada2, archivoEntrada2);
+            ConcatenarVertical(&matriz, &dib.altura, &dib.ancho, nombreEntrada2);
+            break;
+        }
+        default:
+            printf("Filtro no reconocido.\n");
+            destruirMatriz((void**)matriz, dib.altura);
+            fclose(ImgOriginal);
+            return ERROR_ARGUMENTO;
     }
+    // Guardamos
+    char archivoSalida[145];
+    snprintf(archivoSalida, sizeof(archivoSalida), "MIEL_%s_%s", filtro, archivoEntrada);
+    FILE *ImgNueva = fopen(archivoSalida, "wb");
+    if (!ImgNueva)
+    {
+        printf("Error abriendo archivos\n");
+        fclose(ImgOriginal);
+        destruirMatriz((void**)matriz, dib.altura);
+        return ERROR_ARCHIVO;
+    }
+    fwrite(&header, sizeof(BMPHeader), 1, ImgNueva);
+    fwrite(&dib, sizeof(DIBHeader), 1, ImgNueva);
+    fseek(ImgNueva, header.InicioImagen, SEEK_SET);
+    EscribirImagen(ImgNueva, matriz, dib.ancho, dib.altura);
+
+    destruirMatriz((void**)matriz, dib.altura);
+    fclose(ImgNueva);
+    fclose(ImgOriginal);
+
+    printf("\nFiltro '%s' aplicado. Imagen guardada como: %s\n", filtro, archivoSalida);
+    return EXITO;
 }
 
 void ProcesarUtilidad(const char* archivoEntrada, const char* filtroEntrante)
@@ -289,7 +331,7 @@ int agregar_imagen(instrucciones* inst, const char* imagen)
     if (inst->cant_imagenes >= 2)
     {
         printf("Error: No se pueden agregar mas de dos imagenes. La imagen %s no se agrego.\n", imagen);
-        return ERROR_ARGUMENTO;
+        return ERROR_ARGUMENTO;//NO SE SI ES ARCHIVO O ARGUMENTO
     }
     inst->imagenes[inst->cant_imagenes]=imagen;
     inst->cant_imagenes++;
@@ -369,12 +411,17 @@ int CargarInstrucciones(instrucciones* inst, const char* cadena)
     }
     //Si no esta en filtro y utilidad (q ya paso), error
     //ACA NO SE SI AGREGAR FILTRO O UTILIDAD NO RECONOCIDA ASI NO LO CHEQUEAS EN EL PROCESAR UTILIDAD
-    if(!BuscarFiltro(filtro))
+    /*if(!BuscarFiltro(filtro))
     {
         printf("Filtro '%s' no reconocido.\n", filtro);
         return ERROR_ARGUMENTO;
     }
-
+    */
+    if(BuscarFiltro1(filtro) == SIN_FILTRO)
+    {
+        printf("Filtro '%s' no reconocido.\n", filtro);
+        return ERROR_ARGUMENTO;
+    }
     //Verifico que no este repetido
     int fin = inst->cant_filtros;
     int repetido = 0; // bandera de si hay repetido de ese filtro
@@ -443,6 +490,46 @@ bool BuscarFiltro(const char* filtro)
         return true;
     else
         return false;
+}
+
+int BuscarFiltro1(const char* filtro)
+{
+    if (strcmp(filtro, "escala-de-grises") == 0)
+        return FILTRO_ESCALA_GRISES;
+    else if (strcmp(filtro, "negativo") == 0)
+        return FILTRO_NEGATIVO;
+    else if (strcmp(filtro, "espejar-horizontal") == 0)
+        return FILTRO_ESPEJAR_H;
+    else if (strcmp(filtro, "espejar-vertical") == 0)
+        return FILTRO_ESPEJAR_V;
+    else if (strcmp(filtro, "aumentar-contraste") == 0)
+        return FILTRO_AUMENTAR_CONTRASTE;
+    else if (strcmp(filtro, "reducir-contraste") == 0)
+        return FILTRO_REDUCIR_CONTRASTE;
+    else if (strcmp(filtro, "tonalidad-azul") == 0)
+        return FILTRO_TONALIDAD_AZUL;
+    else if (strcmp(filtro, "tonalidad-verde") == 0)
+        return FILTRO_TONALIDAD_VERDE;
+    else if (strcmp(filtro, "tonalidad-roja") == 0)
+        return FILTRO_TONALIDAD_ROJA;
+    else if (strcmp(filtro, "recortar") == 0)
+        return FILTRO_RECORTAR;
+    else if (strcmp(filtro, "achicar") == 0)
+        return FILTRO_ACHICAR;
+    else if (strcmp(filtro, "rotar-derecha") == 0)
+        return FILTRO_ROTAR_DERECHA;
+    else if (strcmp(filtro, "rotar-izquierda") == 0)
+        return FILTRO_ROTAR_IZQUIERDA;
+    else if(strcmp(filtro,"comodin1")==0)
+        return FILTRO_COMODIN1;
+    else if (strcmp(filtro, "comodin2") == 0)
+        return FILTRO_COMODIN2;
+    else if(strcmp(filtro,"concatenar-horizontal")==0)
+        return FILTRO_CONCATENAR_H;
+    else if(strcmp(filtro,"concatenar-vertical")==0)
+        return FILTRO_CONCATENAR_V;
+    else
+        return SIN_FILTRO;
 }
 
 bool BuscarUtilidad(const char* utilidad)
