@@ -87,7 +87,7 @@ typedef struct{
 
 int procesar_imagen(int argc, char* argv[]);
 
-void ProcesarUtilidad(const char* archivoEntrada,const char* utilidad);
+int ProcesarUtilidad(const char* archivoEntrada,const char* utilidad);
 
 int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2, const char* filtro);
 

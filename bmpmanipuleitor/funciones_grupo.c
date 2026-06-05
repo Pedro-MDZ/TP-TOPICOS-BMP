@@ -57,26 +57,37 @@ int procesar_imagen(int argc, char* argv[])
     for (int i = 1; i < argc; i++)
         CargarInstrucciones(&inst, argv[i]);
 
-    for (int i = 0; i < inst.cant_utilidades; i++)
-        ProcesarUtilidad(inst.imagenes[0], inst.utilidades[i]);
-
-    if(verboseAct(&inst))
+    if (verboseAct(&inst))
     {
-        printf("\n%sIniciando bmpmanipuleitor...",txt);
-        printf("\n%sArgumentos detectados: ",txt);
-        mostrarArgumentos(argc,argv);
-        printf("\n%sArgumentos aceptados: ",txt);
+        printf("\n%sIniciando bmpmanipuleitor...", txt);
+        printf("\n%sArgumentos detectados: ", txt);
+        mostrarArgumentos(argc, argv);
+        printf("\n%sArgumentos aceptados: ", txt);
         mostrarInstrucciones(&inst);
     }
+
+    int resultado = EXITO;
+    int i = 0;
+    while (i < inst.cant_utilidades && resultado == EXITO)
+    {
+        resultado = ProcesarUtilidad(inst.imagenes[0], inst.utilidades[i]);
+        i++;
+    }
+
+    if (resultado != EXITO)
+    {
+        liberar_instrucciones(&inst);
+        return resultado;
+    }
+
     if (validaCantImg(&inst))
     {
-        int resultado = EXITO;
-        int i = 0;
+        i = 0;
         while (i < inst.cant_filtros && resultado == EXITO)
         {
             if ((strcmp(inst.filtros[i], "concatenar-horizontal") == 0 ||
-             strcmp(inst.filtros[i], "concatenar-vertical") == 0)
-             && inst.cant_imagenes < 2)
+                 strcmp(inst.filtros[i], "concatenar-vertical") == 0)
+                 && inst.cant_imagenes < 2)
             {
                 printf("Error: '%s' requiere dos imagenes.\n", inst.filtros[i]);
                 i++;
@@ -85,12 +96,10 @@ int procesar_imagen(int argc, char* argv[])
             resultado = ProcesarImagen(inst.imagenes[0], inst.imagenes[1], inst.filtros[i]);
             i++;
         }
-        liberar_instrucciones(&inst);
-        return resultado;
     }
 
     liberar_instrucciones(&inst);
-    return EXITO;
+    return resultado;
 }
 
 //Crear imagen por filtro
@@ -243,7 +252,7 @@ int ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const 
     return EXITO;
 }
 
-void ProcesarUtilidad(const char* archivoEntrada, const char* filtroEntrante)
+int ProcesarUtilidad(const char* archivoEntrada, const char* filtroEntrante)
 {
     char copia[40];
     char* filtro = NULL;
@@ -254,23 +263,17 @@ void ProcesarUtilidad(const char* archivoEntrada, const char* filtroEntrante)
     else
         filtro = copia;
 
-    if (!BuscarFiltro(filtro))
-    {
-        printf("Utilidad '%s' no reconocida.\n", filtro);
-        return;
-    }
-
     if (strcmp(filtro, "help") == 0)
     {
         instHelp();
-        return;
+        return EXITO;
     }
 
     FILE *ImgOriginal = fopen(archivoEntrada, "rb");
     if (!ImgOriginal)
     {
         printf("Error abriendo archivo\n");
-        return;
+        return ERROR_ARCHIVO;
     }
 
     BMPHeader header;
@@ -278,18 +281,13 @@ void ProcesarUtilidad(const char* archivoEntrada, const char* filtroEntrante)
     fread(&header, sizeof(BMPHeader), 1, ImgOriginal);
     fread(&dib, sizeof(DIBHeader), 1, ImgOriginal);
 
-    if(strcmp(filtro,"info")==0)
-            {
-                instInfo(&header,&dib,archivoEntrada);
-                fclose(ImgOriginal);
-                return;
-            }
-    else if(strcmp(filtro,"validar")==0)
-        {
-            instValidarBMP(&header,&dib);
-            fclose(ImgOriginal);
-            return;
-        }
+    if (strcmp(filtro, "info") == 0)
+        instInfo(&header, &dib, archivoEntrada);
+    else if (strcmp(filtro, "validar") == 0)
+        instValidarBMP(&header, &dib);
+
+    fclose(ImgOriginal);
+    return EXITO;
 }
 
 //leer imagenes

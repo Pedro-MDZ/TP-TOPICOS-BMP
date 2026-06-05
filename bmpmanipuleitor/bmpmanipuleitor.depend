@@ -70,7 +70,7 @@
 	"funciones_grupo.h"
 	"funciones_alvarezorozco.h"
 
-1780694086 /home/josue/Documentos/Git/TP-TOPICOS-BMP/bmpmanipuleitor/funciones_grupo.h
+1780702233 /home/josue/Documentos/Git/TP-TOPICOS-BMP/bmpmanipuleitor/funciones_grupo.h
 	<stdio.h>
 	<ctype.h>
 	<stdlib.h>
@@ -80,7 +80,7 @@
 1780670983 /home/josue/Documentos/Git/TP-TOPICOS-BMP/bmpmanipuleitor/funciones_alvarezorozco.h
 	"funciones_grupo.h"
 
-1780701057 source:/home/josue/Documentos/Git/TP-TOPICOS-BMP/bmpmanipuleitor/funciones_grupo.c
+1780702210 source:/home/josue/Documentos/Git/TP-TOPICOS-BMP/bmpmanipuleitor/funciones_grupo.c
 	"funciones_grupo.h"
 	"funciones_luna.h"
 	"funciones_mendez.h"
