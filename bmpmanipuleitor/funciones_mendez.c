@@ -3,8 +3,7 @@
 
 #define GRUPO "MIEL"
 #define INTEGRANTE1 " DNI - APELLIDO, Nombre"
-#define INTEGRANTE2 " DNI - APELLIDO, Nombre"
-#define INTEGRANTE3 " DNI - APELLIDO, Nombre"
+#define INTEGRANTE2 " 46749197 - MENDEZ, Pedro"
 #define PROY "bmpmanipuleitor.exe"
 #define VALIDO "ARCHIVO VALIDO - Listo para procesar"
 #define INVALIDO "ARCHIVO INVALIDO - No se puede procesar"
@@ -365,7 +364,7 @@ void instInfo(BMPHeader *header, DIBHeader *dheader,char *nombreImagen)
 void instHelp(void)
 {
     printf("\nGRUPO: %s",GRUPO);
-    printf("\nINTEGRANTES: \n%s\n%s\n%s",INTEGRANTE1,INTEGRANTE2,INTEGRANTE3);
+    printf("\nINTEGRANTES: \n%s\n%s",INTEGRANTE1,INTEGRANTE2);
     printf("\nUSO: \n%s\t--negativo",PROY);
     printf("\n%s\t--escala-de-grises",PROY);
     printf("\n%s\t--espejar-horizontal",PROY);
@@ -426,7 +425,7 @@ bool validarImagen(const char* imagen)
     FILE *Img = fopen(imagen, "rb");
     if (!Img)
         {
-            printf("Error abriendo archivos\n");
+            printf("\nError abriendo archivos");
             return false;
         }
     BMPHeader header;

@@ -3,13 +3,10 @@ Apellido: Luna, Josue Martiniano
 DNI: 44598222
 Entrega: Sí
 
-Apellido: Alvarez Orozco, Bautista
-DNI: 46091703
+Apellido: Mendez Mamani, Pedro
+DNI: 46749197
 Entrega: Sí
 
-Apellido: Espindola, Facundo Alejandro
-DNI: 44587968
-Entrega: No
 */
 
 #include "funciones_grupo.h"
@@ -54,6 +51,8 @@ void destruirMatriz(void** matriz, int filas)
 void ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const char* filtroEntrante)
 {
     //si tiene un porcentaje dividirlo el filtroEntrante para concerlo
+    //validando headerBMP
+    //Archivo valido
     char copia[40];
     char* filtro = NULL;
     char* valorFiltro = NULL;
@@ -88,7 +87,8 @@ void ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const
                 printf("Error abriendo archivos\n");
                 return;
             }
-
+            //reservando memoria para la matriz
+            //leyendo datos del archivo
             BMPHeader header;
             DIBHeader dib;
 
@@ -103,10 +103,11 @@ void ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const
                 fclose(ImgOriginal);
                 return;
             }
-
+            //memoria reservada exitosamente
             fseek(ImgOriginal, header.InicioImagen, SEEK_SET);
+            //datos cargados exitosamente
             LeerImagen(ImgOriginal, matriz, dib.ancho, dib.altura);
-
+            //aplica filtro
             if (strcmp(filtro, "escala-de-grises") == 0)
                 EscalaGris(matriz, dib.altura, dib.ancho);
             else if (strcmp(filtro, "espejar-horizontal") == 0)
@@ -185,7 +186,8 @@ void ProcesarImagen(const char* archivoEntrada,const char* archivoEntrada2,const
                 fwrite(&dib, sizeof(DIBHeader), 1, ImgNueva);
                 fseek(ImgNueva, header.InicioImagen, SEEK_SET);
                 EscribirImagen(ImgNueva, matriz, dib.ancho, dib.altura);
-
+                //filtro cargado exitosamente
+                //liberando memoria
                 destruirMatriz((void**)matriz, dib.altura);
                 fclose(ImgNueva);
                 fclose(ImgOriginal);
@@ -390,7 +392,11 @@ void CargarInstrucciones(instrucciones* inst, const char* cadena)
     {
         agregar_imagen(&(*inst),cadena);
     }
-    else return;
+    else
+    {
+        printf("\nArgumento %s INVALIDO\n",cadena);
+    }
+        return;
 }
 
 bool BuscarFiltro(const char* filtro)
