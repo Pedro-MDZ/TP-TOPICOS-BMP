@@ -104,7 +104,8 @@ int procesar_imagen(int argc, char* argv[])
             i++;
         }
     }
-    printf("\n%sProceso finalizado - %d archivos generados",txt,i);
+    if(verboseAct(&inst))
+        printf("\n%sProceso finalizado - %d archivos generados",txt,i);
     liberar_instrucciones(&inst);
     return resultado;
 }
