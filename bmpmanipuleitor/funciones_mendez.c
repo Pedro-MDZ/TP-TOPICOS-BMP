@@ -7,14 +7,18 @@
 #define PROY "bmpmanipuleitor.exe"
 #define VALIDO "ARCHIVO VALIDO - Listo para procesar"
 #define INVALIDO "ARCHIVO INVALIDO - No se puede procesar"
+#define txt "[INFO]"
 
 
 
 
-int RotarDerecha(Pixel*** matriz, int* filas, int* columnas)
+int RotarDerecha(Pixel*** matriz, int* filas, int* columnas,int verbose)
 {
     int nuevoAlto = *columnas;
     int nuevoAncho = *filas;
+
+    if(verbose != 0)
+        printf("\n%sReservando memoria para matriz %dx%d...",txt,nuevoAncho,nuevoAlto);
 
     Pixel** nuevaMatriz = (Pixel**)crearMatriz(sizeof(Pixel), nuevoAlto, nuevoAncho);
     if (!nuevaMatriz)
@@ -22,6 +26,8 @@ int RotarDerecha(Pixel*** matriz, int* filas, int* columnas)
         puts("Error al rotar: sin memoria");
         return ERROR_MEMORIA;
     }
+    if(verbose != 0)
+        printf("\n%sMemoria reservada exitosamente (%d pixeles)",txt,(nuevoAncho*nuevoAlto));
 
     for (int i = 0; i < *filas; i++)
     {
@@ -30,7 +36,8 @@ int RotarDerecha(Pixel*** matriz, int* filas, int* columnas)
             nuevaMatriz[*columnas - 1 - j][i] = (*matriz)[i][j];
         }
     }
-
+    if(verbose != 0)
+        printf("\n%sLiberando Memoria",txt);
     destruirMatriz((void**)*matriz,*filas);
     *matriz = nuevaMatriz;
     *filas = nuevoAlto;
@@ -38,17 +45,21 @@ int RotarDerecha(Pixel*** matriz, int* filas, int* columnas)
     return EXITO;
 }
 
-int RotarIzquierda(Pixel*** matriz, int* filas, int* columnas)
+int RotarIzquierda(Pixel*** matriz, int* filas, int* columnas,int verbose)
 {
     int nuevoAlto = *columnas;
     int nuevoAncho = *filas;
 
+    if(verbose != 0)
+        printf("\n%sReservando memoria para matriz %dx%d...",txt,nuevoAncho,nuevoAlto);
     Pixel** nuevaMatriz = (Pixel**)crearMatriz(sizeof(Pixel), nuevoAlto, nuevoAncho);
     if (!nuevaMatriz)
     {
         puts("Error al rotar: sin memoria");
         return ERROR_MEMORIA;
     }
+    if(verbose != 0)
+        printf("\n%sMemoria reservada exitosamente (%d pixeles)",txt,(nuevoAncho*nuevoAlto));
 
     for (int i = 0; i < *filas; i++)
     {
@@ -57,7 +68,8 @@ int RotarIzquierda(Pixel*** matriz, int* filas, int* columnas)
             nuevaMatriz[j][*filas - 1 - i] = (*matriz)[i][j];
         }
     }
-
+    if(verbose != 0)
+        printf("\n%sLiberando Memoria",txt);
     destruirMatriz((void**)*matriz,*filas);
     *matriz = nuevaMatriz;
     *filas = nuevoAlto;
@@ -65,11 +77,14 @@ int RotarIzquierda(Pixel*** matriz, int* filas, int* columnas)
     return EXITO;
 }
 
-int EspejarHorizontal(Pixel*** matriz, int *filas, int *columnas)
+int EspejarHorizontal(Pixel*** matriz, int *filas, int *columnas,int verbose)
 {
 
     int nuevoAlto = *filas;
     int nuevoAncho = *columnas;
+
+    if(verbose != 0)
+        printf("\n%sReservando memoria para matriz %dx%d...",txt,nuevoAncho,nuevoAlto);
 
     Pixel** nuevaMatriz = (Pixel**)crearMatriz(sizeof(Pixel), nuevoAlto, nuevoAncho);
     if (!nuevaMatriz)
@@ -77,6 +92,9 @@ int EspejarHorizontal(Pixel*** matriz, int *filas, int *columnas)
         puts("Error al espejar-horizontal: sin memoria");
         return ERROR_MEMORIA;
     }
+
+    if(verbose != 0)
+        printf("\n%sMemoria reservada exitosamente (%d pixeles)",txt,(nuevoAncho*nuevoAlto));
 
     for (int i = 0; i < *filas; i++)
     {
@@ -87,7 +105,8 @@ int EspejarHorizontal(Pixel*** matriz, int *filas, int *columnas)
         }
     }
 
-
+    if(verbose != 0)
+        printf("\n%sLiberando Memoria",txt);
     destruirMatriz((void**)*matriz, *filas);
 
     *matriz = nuevaMatriz;
@@ -97,18 +116,22 @@ int EspejarHorizontal(Pixel*** matriz, int *filas, int *columnas)
 }
 
 
-int EspejarVertical(Pixel*** matriz, int *filas, int *columnas)
+int EspejarVertical(Pixel*** matriz, int *filas, int *columnas,int verbose)
 {
 
     int nuevoAlto = *filas;
     int nuevoAncho = *columnas;
 
+    if(verbose != 0)
+        printf("\n%sReservando memoria para matriz %dx%d...",txt,nuevoAncho,nuevoAlto);
     Pixel** nuevaMatriz = (Pixel**)crearMatriz(sizeof(Pixel), nuevoAlto, nuevoAncho);
     if (!nuevaMatriz)
     {
         puts("Error al espejar-horizontal: sin memoria");
         return ERROR_MEMORIA;
     }
+    if(verbose != 0)
+        printf("\n%sMemoria reservada exitosamente (%d pixeles)",txt,(nuevoAncho*nuevoAlto));
 
     for (int i = 0; i < *filas; i++)
     {
@@ -119,7 +142,8 @@ int EspejarVertical(Pixel*** matriz, int *filas, int *columnas)
         }
     }
 
-
+    if(verbose != 0)
+        printf("\n%sLiberando Memoria",txt);
     destruirMatriz((void**)*matriz, *filas);
 
     *matriz = nuevaMatriz;
@@ -128,7 +152,7 @@ int EspejarVertical(Pixel*** matriz, int *filas, int *columnas)
     return EXITO;
 }
 
-int Recortar(Pixel*** matriz, int *filas, int *columnas, float porcentaje)
+int Recortar(Pixel*** matriz, int *filas, int *columnas, float porcentaje,int verbose)
 {
     porcentaje= porcentaje/100;
     int nuevasFilas = (*filas) * porcentaje;
@@ -138,6 +162,9 @@ int Recortar(Pixel*** matriz, int *filas, int *columnas, float porcentaje)
     int margenSuperior = 0;
     int margenIzquierdo = 0;
 
+    if(verbose != 0)
+        printf("\n%sReservando memoria para matriz %dx%d...",txt,nuevasFilas,nuevasColumnas);
+
     Pixel** nuevaMatriz = (Pixel**)crearMatriz(sizeof(Pixel), nuevasFilas, nuevasColumnas);
 
     if (!nuevaMatriz)
@@ -146,6 +173,8 @@ int Recortar(Pixel*** matriz, int *filas, int *columnas, float porcentaje)
         return ERROR_MEMORIA;
     }
 
+    if(verbose != 0)
+        printf("\n%sMemoria reservada exitosamente (%d pixeles)",txt,(nuevasFilas*nuevasColumnas));
 
     for (int i = 0; i < nuevasFilas; i++)
     {
@@ -155,6 +184,8 @@ int Recortar(Pixel*** matriz, int *filas, int *columnas, float porcentaje)
         }
     }
 
+    if(verbose != 0)
+        printf("\n%sLiberando Memoria",txt);
     destruirMatriz((void**)*matriz, *filas);
 
     *matriz = nuevaMatriz;
@@ -164,11 +195,13 @@ int Recortar(Pixel*** matriz, int *filas, int *columnas, float porcentaje)
 }
 
 
-int AchicarImagen(Pixel*** matriz, int* filas, int* columnas, float porcentaje)
+int AchicarImagen(Pixel*** matriz, int* filas, int* columnas, float porcentaje,int verbose)
 {
     int nuevasFilas = (*filas * porcentaje) / 100;
     int nuevasColumnas = (*columnas * porcentaje) / 100;
 
+    if(verbose != 0)
+        printf("\n%sReservando memoria para matriz %dx%d...",txt,nuevasFilas,nuevasColumnas);
 
     Pixel** matrizReducida = (Pixel**)crearMatriz(sizeof(Pixel), nuevasFilas, nuevasColumnas);
 
@@ -177,6 +210,8 @@ int AchicarImagen(Pixel*** matriz, int* filas, int* columnas, float porcentaje)
         printf("Error al achicar: sin memoria.");
         return ERROR_MEMORIA;
     }
+    if(verbose != 0)
+        printf("\n%sMemoria reservada exitosamente (%d pixeles)",txt,(nuevasFilas*nuevasColumnas));
 
     float factorFila = (float)(*filas) / nuevasFilas;
     float factorColumna = (float)(*columnas) / nuevasColumnas;
@@ -199,6 +234,8 @@ int AchicarImagen(Pixel*** matriz, int* filas, int* columnas, float porcentaje)
         }
     }
 
+    if(verbose != 0)
+        printf("\n%sLiberando Memoria",txt);
     destruirMatriz((void**)*matriz, *filas);
 
     *matriz= matrizReducida;
@@ -209,8 +246,9 @@ int AchicarImagen(Pixel*** matriz, int* filas, int* columnas, float porcentaje)
 
 
 
-int ConcatenarVertical(Pixel*** matriz1, int* filas1, int* columnas1,const char* archivoEntrada)
+int ConcatenarVertical(Pixel*** matriz1, int* filas1, int* columnas1,const char* archivoEntrada,int verbose)
 {
+
     FILE *ImgSegunda = fopen(archivoEntrada, "rb");
 
         if (!ImgSegunda)
@@ -222,8 +260,13 @@ int ConcatenarVertical(Pixel*** matriz1, int* filas1, int* columnas1,const char*
         BMPHeader header;
         DIBHeader dib;
 
+
         fread(&header, sizeof(BMPHeader), 1, ImgSegunda);
         fread(&dib, sizeof(DIBHeader), 1, ImgSegunda);
+
+
+        if(verbose != 0)
+        printf("\n%sReservando memoria para matriz %dx%d...",txt,dib.ancho,dib.altura);
 
         Pixel** matriz2 = (Pixel**)crearMatriz(sizeof(Pixel), dib.altura, dib.ancho);
         if (!matriz2)
@@ -232,12 +275,22 @@ int ConcatenarVertical(Pixel*** matriz1, int* filas1, int* columnas1,const char*
             fclose(ImgSegunda);
             return ERROR_MEMORIA;
         }
+        if(verbose != 0)
+        printf("\n%sMemoria reservada exitosamente (%d pixeles)",txt,(dib.ancho*dib.altura));
 
         fseek(ImgSegunda, header.InicioImagen, SEEK_SET);
+        if(verbose != 0)
+        {
+            printf("\n%sLeyendo datos de imagen segunda...",txt);
+            printf("\n%sDatos cargados correctamente",txt);
+        }
         LeerImagen(ImgSegunda, matriz2, dib.ancho, dib.altura);
 
     int nuevasFilas = *filas1 + dib.altura;
     int nuevasColumnas = (*columnas1 > dib.ancho) ? *columnas1 : dib.ancho;
+
+    if(verbose != 0)
+        printf("\n%sReservando memoria para matriz %dx%d...",txt,nuevasFilas,nuevasColumnas);
 
     Pixel** matrizFinal = (Pixel**)crearMatriz(sizeof(Pixel), nuevasFilas, nuevasColumnas);
     if (!matrizFinal)
@@ -247,6 +300,8 @@ int ConcatenarVertical(Pixel*** matriz1, int* filas1, int* columnas1,const char*
         fclose(ImgSegunda);
         return ERROR_MEMORIA;
     }
+    if(verbose != 0)
+        printf("\n%sMemoria reservada exitosamente (%d pixeles)",txt,(nuevasFilas*nuevasColumnas));
 
     Pixel Relleno = {0, 165, 255}; //// Naranja
 
@@ -274,6 +329,8 @@ int ConcatenarVertical(Pixel*** matriz1, int* filas1, int* columnas1,const char*
         }
     }
 
+    if(verbose != 0)
+        printf("\n%sLiberando Memoria",txt);
     destruirMatriz((void**)(*matriz1), *filas1);
 
     *matriz1 = matrizFinal;
@@ -285,7 +342,7 @@ int ConcatenarVertical(Pixel*** matriz1, int* filas1, int* columnas1,const char*
     return EXITO;
 }
 
-int ConcatenarHorizontal(Pixel*** matriz1, int* filas1, int* columnas1,const char* archivoEntrada)
+int ConcatenarHorizontal(Pixel*** matriz1, int* filas1, int* columnas1,const char* archivoEntrada,int verbose)
 {
     FILE *ImgSegunda = fopen(archivoEntrada, "rb");
 
@@ -301,6 +358,9 @@ int ConcatenarHorizontal(Pixel*** matriz1, int* filas1, int* columnas1,const cha
         fread(&header, sizeof(BMPHeader), 1, ImgSegunda);
         fread(&dib, sizeof(DIBHeader), 1, ImgSegunda);
 
+        if(verbose != 0)
+        printf("\n%sReservando memoria para matriz %dx%d...",txt,dib.ancho,dib.altura);
+
         Pixel** matriz2 = (Pixel**)crearMatriz(sizeof(Pixel), dib.altura, dib.ancho);
         if (!matriz2)
         {
@@ -309,11 +369,24 @@ int ConcatenarHorizontal(Pixel*** matriz1, int* filas1, int* columnas1,const cha
             return ERROR_MEMORIA;
         }
 
+        if(verbose != 0)
+        printf("\n%sMemoria reservada exitosamente (%d pixeles)",txt,(dib.ancho*dib.altura));
+
         fseek(ImgSegunda, header.InicioImagen, SEEK_SET);
+
+        if(verbose != 0)
+        {
+            printf("\n%sLeyendo datos de imagen segunda...",txt);
+            printf("\n%sDatos cargados correctamente",txt);
+        }
+
         LeerImagen(ImgSegunda, matriz2, dib.ancho, dib.altura);
 
     int nuevasFilas = (*filas1 > dib.altura) ? *filas1 : dib.altura;
     int nuevasColumnas = *columnas1 + dib.ancho;
+
+    if(verbose != 0)
+        printf("\n%sReservando memoria para matriz %dx%d...",txt,nuevasFilas,nuevasColumnas);
 
     Pixel** matrizFinal = (Pixel**)crearMatriz(sizeof(Pixel), nuevasFilas, nuevasColumnas);
     if (!matrizFinal)
@@ -323,6 +396,10 @@ int ConcatenarHorizontal(Pixel*** matriz1, int* filas1, int* columnas1,const cha
         fclose(ImgSegunda);
         return ERROR_MEMORIA;
     }
+
+    if(verbose != 0)
+        printf("\n%sMemoria reservada exitosamente (%d pixeles)",txt,(nuevasFilas*nuevasColumnas));
+
 
     Pixel Relleno = {128, 0, 128}; //// Violeta
 
@@ -349,6 +426,9 @@ int ConcatenarHorizontal(Pixel*** matriz1, int* filas1, int* columnas1,const cha
                 matrizFinal[j][i + *columnas1] = Relleno;
         }
     }
+
+    if(verbose != 0)
+        printf("\n%sLiberando Memoria",txt);
 
     destruirMatriz((void**)(*matriz1), *filas1);
 
@@ -479,6 +559,32 @@ bool validarBMP(const char* imagen)
     {
         fclose(Img);
         return false;
+    }
+}
+
+void validarVerbose(const char* imagen)
+{
+    printf("\n%sValidando archivo BMP...",txt);
+    FILE *Img = fopen(imagen, "rb");
+    if (!Img)
+        {
+            printf("\n%sArchivo no existe",txt);
+            return;
+        }
+    BMPHeader header;
+    DIBHeader dib;
+    fread(&header, sizeof(BMPHeader), 1, Img);
+    fread(&dib, sizeof(DIBHeader), 1, Img);
+    if(header.tipo == 0x4D42 && dib.tamPunto == 24 && dib.compresion == 0 && dib.ancho >= 1 && dib.altura >=1)
+    {
+        printf("\n%s Archivo valido - Dimensiones: %dx%d, Tamanio: %d bytes",txt,dib.ancho,dib.altura,header.tamArch);
+        fclose(Img);
+        return;
+    }
+    else
+    {
+        fclose(Img);
+        return;
     }
 }
 
